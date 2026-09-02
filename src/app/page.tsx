@@ -1,6 +1,6 @@
 import { fetchGoogleReviews } from "@/lib/google";
 import { createClient } from "@/lib/supabase/server";
-import { ReviewCard } from "@/components/ReviewCard";
+import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
 import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
 
@@ -17,7 +17,7 @@ type Testimonial = {
 export default async function Home() {
   const supabase = await createClient();
 
-  const [{ configured, rating, total, mapsUri, reviews, error }, hiddenRes, testimonialsRes] =
+  const [{ configured, rating, total, mapsUri, reviews }, hiddenRes, testimonialsRes] =
     await Promise.all([
       fetchGoogleReviews(),
       supabase.from("hidden_google_reviews").select("review_id"),
@@ -33,75 +33,54 @@ export default async function Home() {
   const googleReviews = reviews.filter((r) => !hidden.has(r.id));
   const testimonials = (testimonialsRes.data ?? []) as Testimonial[];
 
+  const asWall = (t: Testimonial): WallItem => ({
+    key: `t-${t.id}`,
+    author: t.author,
+    rating: t.rating,
+    text: t.text,
+    photo: t.photo_url,
+    meta: new Date(t.created_at).toLocaleDateString("pt-BR"),
+    badge: t.featured ? "Destaque" : undefined,
+  });
+
+  // destaques primeiro, depois Google, depois os demais depoimentos do site
+  const items: WallItem[] = [
+    ...testimonials.filter((t) => t.featured).map(asWall),
+    ...googleReviews.map((r) => ({
+      key: `g-${r.id}`,
+      author: r.author,
+      authorPhoto: r.authorPhoto,
+      rating: r.rating,
+      text: r.text,
+      meta: r.relativeTime,
+      badge: "Google",
+    })),
+    ...testimonials.filter((t) => !t.featured).map(asWall),
+  ];
+
   return (
     <main>
-      {/* ---------- SEÇÃO DE AVALIAÇÕES (full-width, com fade) ---------- */}
       <section className="reviews-band">
-        <div className="wrap">
-          <header className="reviews-band-head">
-            <h1>Avaliações</h1>
-            {configured && rating != null ? (
-              <p className="summary">
-                <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
-                {mapsUri ? (
-                  <>
-                    {" · "}
-                    <a href={mapsUri} target="_blank" rel="noreferrer">
-                      ver no Google
-                    </a>
-                  </>
-                ) : null}
-              </p>
-            ) : null}
-          </header>
-
-          {configured ? (
-            <>
-              <h2>Do Google</h2>
-              <div className="grid">
-                {googleReviews.length === 0 ? (
-                  <p className="muted">
-                    {error ?? "Nenhuma avaliação do Google para exibir no momento."}
-                  </p>
-                ) : (
-                  googleReviews.map((r) => (
-                    <ReviewCard
-                      key={r.id}
-                      author={r.author}
-                      authorPhoto={r.authorPhoto}
-                      rating={r.rating}
-                      text={r.text}
-                      meta={r.relativeTime}
-                      badge="Google"
-                    />
-                  ))
-                )}
-              </div>
-            </>
+        <div className="wrap reviews-band-head">
+          <h1>Avaliações</h1>
+          {configured && rating != null ? (
+            <p className="summary">
+              <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
+              {mapsUri ? (
+                <>
+                  {" · "}
+                  <a href={mapsUri} target="_blank" rel="noreferrer">
+                    ver no Google
+                  </a>
+                </>
+              ) : null}
+            </p>
           ) : null}
-
-          <h2>{configured ? "Dos nossos clientes" : "O que dizem os clientes"}</h2>
-          <div className="grid">
-            {testimonials.length === 0 ? (
-              <p className="muted">Seja o primeiro a deixar uma avaliação!</p>
-            ) : (
-              testimonials.map((t) => (
-                <ReviewCard
-                  key={t.id}
-                  author={t.author}
-                  rating={t.rating}
-                  text={t.text}
-                  photo={t.photo_url}
-                  meta={new Date(t.created_at).toLocaleDateString("pt-BR")}
-                  badge={t.featured ? "Destaque" : undefined}
-                />
-              ))
-            )}
-          </div>
         </div>
+
+        <ReviewsWall items={items} />
       </section>
 
-      {/* ---------- FORMULÁRIO ---------- */}
       <section id="avaliar" className="wrap">
         <h2>Deixe sua avaliação</h2>
         <TestimonialForm />
