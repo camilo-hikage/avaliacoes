@@ -343,6 +343,76 @@ main > .reviews-band:first-child {
   margin-top: 2rem;
 }
 
+/* ---------- modal do cardápio completo (iframe) ---------- */
+.menu-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40; /* abaixo do header (z-index 50) — o topo do site continua visível */
+  display: flex;
+  justify-content: center;
+  padding: 104px clamp(0.5rem, 3vw, 2rem) clamp(0.75rem, 3vw, 2rem);
+  background: rgba(18, 14, 9, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: menu-modal-in 0.2s ease;
+}
+@keyframes menu-modal-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.menu-modal-panel {
+  display: flex;
+  flex-direction: column;
+  width: min(1100px, 100%);
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--paper);
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.7);
+}
+.menu-modal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  background: var(--ink);
+  color: #f3eee2;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+}
+.menu-modal-bar > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.menu-modal-bar a {
+  color: var(--accent);
+}
+.menu-modal-bar button {
+  background: transparent;
+  border: 0;
+  color: #f3eee2;
+  font-size: 1.1rem;
+  line-height: 1;
+  letter-spacing: 0;
+  padding: 0 0.25rem;
+  cursor: pointer;
+}
+.menu-modal iframe {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  background: var(--paper);
+}
+
 /* ---------- seção: Instagram ---------- */
 .insta-band {
   background: var(--paper);

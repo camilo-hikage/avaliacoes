@@ -3,6 +3,7 @@ import { fetchInstagramPosts } from "@/lib/instagram";
 import { fetchMenu } from "@/lib/menu";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
 import { MenuWall } from "@/components/MenuWall";
+import { MenuModal } from "@/components/MenuModal";
 import { InstagramCarousel } from "@/components/InstagramCarousel";
 import { StarRating } from "@/components/StarRating";
 import { TornDivider } from "@/components/TornDivider";
@@ -45,14 +46,9 @@ export default async function Home() {
           </div>
           <MenuWall menu={menu} />
           <div className="menu-cta">
-            <a
-              className="btn"
-              href="https://app.cardapioweb.com/tio_bar_e_restaurante"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ver cardápio completo
-            </a>
+            <MenuModal
+              url={`https://app.cardapioweb.com/${process.env.CARDAPIOWEB_SLUG || "tio_bar_e_restaurante"}`}
+            />
           </div>
         </section>
       ) : null}
