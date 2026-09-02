@@ -71,10 +71,17 @@ export default async function AdminPage() {
 
       <section>
         <h2>Avaliações do Google</h2>
-        <p className="muted">
-          A Places API entrega até 5 avaliações, ao vivo. Aqui você só pode <em>ocultar</em> as que
-          não quer mostrar na home.
-        </p>
+        {!google.configured ? (
+          <p className="muted">
+            Bloco do Google desativado. Defina <code>GOOGLE_MAPS_API_KEY</code> e{" "}
+            <code>GOOGLE_PLACE_ID</code> no ambiente para ativá-lo.
+          </p>
+        ) : (
+          <p className="muted">
+            A Places API entrega até 5 avaliações, ao vivo. Aqui você só pode <em>ocultar</em> as que
+            não quer mostrar na home.
+          </p>
+        )}
         {google.error ? <p className="err">{google.error}</p> : null}
         {google.reviews.map((r) => (
           <article key={r.id} className="row">

@@ -16,7 +16,7 @@ type Testimonial = {
 export default async function Home() {
   const supabase = await createClient();
 
-  const [{ rating, total, mapsUri, reviews, error }, hiddenRes, testimonialsRes] =
+  const [{ configured, rating, total, mapsUri, reviews, error }, hiddenRes, testimonialsRes] =
     await Promise.all([
       fetchGoogleReviews(),
       supabase.from("hidden_google_reviews").select("review_id"),
@@ -36,7 +36,7 @@ export default async function Home() {
     <main className="wrap">
       <h1>Avaliações</h1>
 
-      {rating != null ? (
+      {configured && rating != null ? (
         <p className="summary">
           <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
           {mapsUri ? (
@@ -50,30 +50,32 @@ export default async function Home() {
         </p>
       ) : null}
 
-      <section>
-        <h2>Do Google</h2>
-        <div className="grid">
-          {googleReviews.length === 0 ? (
-            <p className="muted">
-              {error ?? "Nenhuma avaliação do Google para exibir no momento."}
-            </p>
-          ) : (
-            googleReviews.map((r) => (
-              <ReviewCard
-                key={r.id}
-                author={r.author}
-                rating={r.rating}
-                text={r.text}
-                meta={r.relativeTime}
-                badge="Google"
-              />
-            ))
-          )}
-        </div>
-      </section>
+      {configured ? (
+        <section>
+          <h2>Do Google</h2>
+          <div className="grid">
+            {googleReviews.length === 0 ? (
+              <p className="muted">
+                {error ?? "Nenhuma avaliação do Google para exibir no momento."}
+              </p>
+            ) : (
+              googleReviews.map((r) => (
+                <ReviewCard
+                  key={r.id}
+                  author={r.author}
+                  rating={r.rating}
+                  text={r.text}
+                  meta={r.relativeTime}
+                  badge="Google"
+                />
+              ))
+            )}
+          </div>
+        </section>
+      ) : null}
 
       <section>
-        <h2>Dos nossos clientes</h2>
+        <h2>{configured ? "Dos nossos clientes" : "O que dizem os clientes"}</h2>
         <div className="grid">
           {testimonials.length === 0 ? (
             <p className="muted">Seja o primeiro a deixar uma avaliação!</p>

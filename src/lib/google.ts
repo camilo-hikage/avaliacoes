@@ -10,6 +10,7 @@ export type GoogleReview = {
 };
 
 export type GooglePlaceReviews = {
+  configured: boolean;
   rating: number | null;
   total: number | null;
   mapsUri: string | null;
@@ -37,6 +38,7 @@ type PlacesApiResponse = {
 };
 
 const EMPTY: GooglePlaceReviews = {
+  configured: true,
   rating: null,
   total: null,
   mapsUri: null,
@@ -54,7 +56,8 @@ export async function fetchGoogleReviews(): Promise<GooglePlaceReviews> {
   const placeId = process.env.GOOGLE_PLACE_ID;
 
   if (!key || !placeId) {
-    return { ...EMPTY, error: "GOOGLE_MAPS_API_KEY ou GOOGLE_PLACE_ID não configurados." };
+    // Bloco B desativado: sem chaves do Google, apenas os depoimentos do site aparecem.
+    return { ...EMPTY, configured: false };
   }
 
   let res: Response;
@@ -88,6 +91,7 @@ export async function fetchGoogleReviews(): Promise<GooglePlaceReviews> {
   }));
 
   return {
+    configured: true,
     rating: data.rating ?? null,
     total: data.userRatingCount ?? null,
     mapsUri: data.googleMapsUri ?? null,
