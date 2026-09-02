@@ -76,28 +76,6 @@ export default async function Home() {
 
   return (
     <main>
-      {/* ---------------- HERO ---------------- */}
-      <section className="hero">
-        <div className="hero-inner">
-          <p className="eyebrow">Tio Bar e Restaurante</p>
-          <h1 className="display">O que dizem por aí</h1>
-          {configured && rating != null ? (
-            <p className="hero-rating">
-              <StarRating value={rating} />
-              <span>
-                <strong>{rating.toFixed(1)}</strong> · {total} avaliações no Google
-              </span>
-              {mapsUri ? (
-                <a href={mapsUri} target="_blank" rel="noreferrer">
-                  ver no Google
-                </a>
-              ) : null}
-            </p>
-          ) : null}
-        </div>
-        <TornDivider position="bottom" tone="paper" variant="wave" />
-      </section>
-
       {/* ---------------- CARDÁPIO ---------------- */}
       {menu.configured && menu.categories.length > 0 ? (
         <section id="cardapio" className="menu-band">
@@ -132,12 +110,31 @@ export default async function Home() {
         </section>
       ) : null}
 
+      {/* ---------------- HERO / INTRO DAS AVALIAÇÕES ---------------- */}
+      <section className="hero">
+        <TornDivider position="top" tone="paper" variant="wave" />
+        <div className="hero-inner">
+          <p className="eyebrow">Tio Bar e Restaurante</p>
+          <h1 className="display">O que dizem por aí</h1>
+          {configured && rating != null ? (
+            <p className="hero-rating">
+              <StarRating value={rating} />
+              <span>
+                <strong>{rating.toFixed(1)}</strong> · {total} avaliações no Google
+              </span>
+              {mapsUri ? (
+                <a href={mapsUri} target="_blank" rel="noreferrer">
+                  ver no Google
+                </a>
+              ) : null}
+            </p>
+          ) : null}
+        </div>
+        <TornDivider position="bottom" tone="paper" variant="wave" />
+      </section>
+
       {/* ---------------- MURAL DE AVALIAÇÕES ---------------- */}
       <section className="reviews-band">
-        <div className="section-head">
-          <p className="eyebrow">Avaliações</p>
-          <h2 className="display">Palavra de quem já veio</h2>
-        </div>
         <ReviewsWall items={items} />
         <TornDivider position="bottom" tone="ink" />
       </section>

@@ -256,6 +256,13 @@ a {
   overflow: visible;
 }
 
+/* primeira seção da página precisa de espaço pro logo que transborda do header */
+main > .menu-band:first-child,
+main > .insta-band:first-child,
+main > .reviews-band:first-child {
+  padding-top: clamp(4.5rem, 8vw, 6rem);
+}
+
 /* ---------- seção: cardápio (mesmo molde das avaliações) ---------- */
 .menu-band {
   background: #e6ddc9;
