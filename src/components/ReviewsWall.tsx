@@ -9,7 +9,6 @@ export type WallItem = {
   text: string;
   meta?: string;
   badge?: string;
-  photo?: string | null;
 };
 
 export function ReviewsWall({ items }: { items: WallItem[] }) {
@@ -23,10 +22,9 @@ export function ReviewsWall({ items }: { items: WallItem[] }) {
         text={it.text}
         meta={it.meta}
         badge={it.badge}
-        photo={it.photo}
       />
     ),
   }));
 
-  return <ScrollingWall cards={cards} emptyText="Seja o primeiro a deixar uma avaliação!" />;
+  return <ScrollingWall cards={cards} emptyText="Nenhuma avaliação para exibir." />;
 }

@@ -28,7 +28,7 @@ const INSTAGRAM_URL = "https://www.instagram.com/tiobarerestaurante_/";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
-  description: `Avaliações do Google e depoimentos dos clientes do ${SITE_NAME}.`,
+  description: `Cardápio, avaliações do Google e Instagram do ${SITE_NAME}.`,
 };
 
 export default function RootLayout({
@@ -39,7 +39,7 @@ export default function RootLayout({
       <body>
         <header className="site-header">
           <nav className="nav-side nav-left">
-            <Link href="/#avaliar">Deixar avaliação</Link>
+            <Link href="/#cardapio">Cardápio</Link>
           </nav>
           <Link href="/" className="brand" aria-label={SITE_NAME}>
             <span className="brand-badge">
@@ -48,7 +48,7 @@ export default function RootLayout({
             </span>
           </Link>
           <nav className="nav-side nav-right">
-            <Link href="/admin">Admin</Link>
+            <Link href="/#avaliar">Avaliar</Link>
           </nav>
           <HeaderEdge />
         </header>
@@ -85,8 +85,7 @@ export default function RootLayout({
             </div>
             <nav className="footer-nav">
               <Link href="/#cardapio">Cardápio</Link>
-              <Link href="/">Avaliações</Link>
-              <Link href="/#avaliar">Deixar avaliação</Link>
+              <Link href="/#avaliar">Avaliar no Google</Link>
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
                 Instagram
               </a>

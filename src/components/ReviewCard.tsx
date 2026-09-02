@@ -8,7 +8,6 @@ export function ReviewCard({
   text,
   meta,
   badge,
-  photo,
 }: {
   author: string;
   authorPhoto?: string | null;
@@ -16,7 +15,6 @@ export function ReviewCard({
   text: string;
   meta?: string;
   badge?: string;
-  photo?: string | null;
 }) {
   return (
     <article className="card">
@@ -29,10 +27,6 @@ export function ReviewCard({
       </div>
       <StarRating value={rating} />
       <p>{text}</p>
-      {photo ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img className="review-photo" src={photo} alt={`Foto enviada por ${author}`} loading="lazy" />
-      ) : null}
       {meta ? <small>{meta}</small> : null}
     </article>
   );

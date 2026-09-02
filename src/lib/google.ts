@@ -30,8 +30,7 @@ const EMPTY: GooglePlaceReviews = {
 /* ------------------------------------------------------------------ *
  *  Fonte: Featurable (https://featurable.com) — plano gratuito.
  *  GET https://featurable.com/api/v2/widgets/:widgetId
- *  A curadoria "quais avaliações sincronizar" é feita no painel do
- *  Featurable; na tela /admin ainda dá para OCULTAR outras.
+ *  A curadoria (quais avaliações aparecem) é feita no painel do Featurable.
  * ------------------------------------------------------------------ */
 
 type FeaturableReview = {

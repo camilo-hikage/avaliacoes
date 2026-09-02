@@ -1,28 +1,18 @@
 import { fetchGoogleReviews } from "@/lib/google";
 import { fetchInstagramPosts } from "@/lib/instagram";
 import { fetchMenu } from "@/lib/menu";
-import { fetchHomeSupabaseData, type Testimonial } from "@/lib/testimonials";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
 import { MenuWall } from "@/components/MenuWall";
 import { InstagramCarousel } from "@/components/InstagramCarousel";
-import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
 import { TornDivider } from "@/components/TornDivider";
 
-// a home lê a sessão/depoimentos do Supabase -> render por request
-export const dynamic = "force-dynamic";
-
 export default async function Home() {
-  const [{ configured, rating, total, mapsUri, reviews }, insta, menu, supa] = await Promise.all([
+  const [{ configured, rating, total, mapsUri, reviews }, insta, menu] = await Promise.all([
     fetchGoogleReviews(),
     fetchInstagramPosts(),
     fetchMenu(),
-    fetchHomeSupabaseData(),
   ]);
-
-  const hidden = new Set(supa.hiddenReviewIds);
-  const googleReviews = reviews.filter((r) => !hidden.has(r.id));
-  const testimonials: Testimonial[] = supa.approvedTestimonials;
 
   // --- Mapa (sem chave: embed público do Google Maps) ---
   const mapsQuery = process.env.NEXT_PUBLIC_MAPS_QUERY || "Tio Bar e Restaurante";
@@ -34,29 +24,15 @@ export default async function Home() {
     mapsQuery,
   )}${mapsPlaceId ? `&destination_place_id=${mapsPlaceId}` : ""}`;
 
-  const asWall = (t: Testimonial): WallItem => ({
-    key: `t-${t.id}`,
-    author: t.author,
-    rating: t.rating,
-    text: t.text,
-    photo: t.photo_url,
-    meta: new Date(t.created_at).toLocaleDateString("pt-BR"),
-    badge: t.featured ? "Destaque" : "Cliente",
-  });
-
-  const items: WallItem[] = [
-    ...testimonials.filter((t) => t.featured).map(asWall),
-    ...googleReviews.map((r) => ({
-      key: `g-${r.id}`,
-      author: r.author,
-      authorPhoto: r.authorPhoto,
-      rating: r.rating,
-      text: r.text,
-      meta: r.relativeTime,
-      badge: "Google",
-    })),
-    ...testimonials.filter((t) => !t.featured).map(asWall),
-  ];
+  const items: WallItem[] = reviews.map((r) => ({
+    key: `g-${r.id}`,
+    author: r.author,
+    authorPhoto: r.authorPhoto,
+    rating: r.rating,
+    text: r.text,
+    meta: r.relativeTime,
+    badge: "Google",
+  }));
 
   return (
     <main>
@@ -123,16 +99,19 @@ export default async function Home() {
         <TornDivider position="bottom" tone="ink" />
       </section>
 
-      {/* ---------------- CHAMADA / FORMULÁRIO ---------------- */}
+      {/* ---------------- CHAMADA ---------------- */}
       <section id="avaliar" className="cta-band">
         <div className="cta-inner">
           <p className="eyebrow">Sua vez</p>
-          <h2 className="display">Deixe a sua avaliação</h2>
+          <h2 className="display">Gostou? Conta pro Google</h2>
           <p className="cta-lead">
-            Comeu, bebeu, curtiu a música? Conta pra gente — depois de aprovada, sua avaliação
-            aparece aqui no mural.
+            Sua avaliação ajuda mais gente a conhecer o Tio — e leva menos de um minuto.
           </p>
-          <TestimonialForm />
+          {mapsUri ? (
+            <a className="btn" href={mapsUri} target="_blank" rel="noreferrer">
+              Avaliar no Google
+            </a>
+          ) : null}
         </div>
       </section>
 

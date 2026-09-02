@@ -16,5 +16,7 @@ export async function GET(request: Request) {
   }
 
   revalidateTag("google-reviews");
+  revalidateTag("menu");
+  revalidateTag("instagram");
   return NextResponse.json({ revalidated: true, at: new Date().toISOString() });
 }
