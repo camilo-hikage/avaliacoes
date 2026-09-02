@@ -343,8 +343,8 @@ main > .reviews-band:first-child {
   margin-top: 2rem;
 }
 
-/* ---------- modal do cardápio completo (iframe) ---------- */
-.menu-modal {
+/* ---------- modal reutilizável (cardápio, instagram) ---------- */
+.site-modal {
   position: fixed;
   inset: 0;
   z-index: 40; /* abaixo do header (z-index 50) — o topo do site continua visível */
@@ -355,9 +355,9 @@ main > .reviews-band:first-child {
   background: rgba(18, 14, 9, 0.5);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
-  animation: menu-modal-in 0.2s ease;
+  animation: site-modal-in 0.2s ease;
 }
-@keyframes menu-modal-in {
+@keyframes site-modal-in {
   from {
     opacity: 0;
   }
@@ -365,7 +365,7 @@ main > .reviews-band:first-child {
     opacity: 1;
   }
 }
-.menu-modal-panel {
+.site-modal-panel {
   display: flex;
   flex-direction: column;
   width: min(1100px, 100%);
@@ -375,7 +375,7 @@ main > .reviews-band:first-child {
   background: var(--paper);
   box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.7);
 }
-.menu-modal-bar {
+.site-modal-bar {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -387,19 +387,19 @@ main > .reviews-band:first-child {
   letter-spacing: 0.14em;
   font-size: 0.78rem;
 }
-.menu-modal-title {
+.site-modal-title {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.menu-modal-open {
+.site-modal-open {
   flex-shrink: 0;
   color: var(--accent);
   white-space: nowrap;
 }
-.menu-modal-close {
+.site-modal-close {
   flex-shrink: 0;
   display: grid;
   place-items: center;
@@ -414,20 +414,42 @@ main > .reviews-band:first-child {
   letter-spacing: 0;
   cursor: pointer;
 }
-.menu-modal-close:hover {
+.site-modal-close:hover {
   background: rgba(255, 255, 255, 0.16);
 }
 @media (max-width: 560px) {
-  .menu-modal-open span {
+  .site-modal-open span {
     display: none; /* mostra só a setinha ↗ */
   }
 }
-.menu-modal iframe {
+.site-modal iframe {
   flex: 1;
   width: 100%;
   min-height: 0;
   border: 0;
   background: var(--paper);
+}
+
+/* corpo do modal do Instagram */
+.insta-modal-body {
+  padding: 1.5rem clamp(1rem, 4vw, 2rem) 2rem;
+  overflow-y: auto;
+  text-align: center;
+}
+.insta-modal-body .insta-carousel {
+  padding: 0;
+  margin-bottom: 1.5rem;
+}
+.insta-modal-body .btn {
+  display: inline-block;
+}
+
+/* gatilho do modal (botão que parece link) */
+button.footer-social {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 /* ---------- seção: Instagram ---------- */
