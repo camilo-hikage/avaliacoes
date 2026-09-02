@@ -29,53 +29,33 @@ const EMPTY: GooglePlaceReviews = {
 
 /* ------------------------------------------------------------------ *
  *  Fonte: Featurable (https://featurable.com) — plano gratuito.
- *  Endpoint público: GET https://featurable.com/api/v1/widgets/:widgetId
- *  A curadoria (quais avaliações sincronizar) é feita no painel do
- *  Featurable; aqui ainda dá para OCULTAR outras na tela /admin.
+ *  GET https://featurable.com/api/v2/widgets/:widgetId
+ *  A curadoria "quais avaliações sincronizar" é feita no painel do
+ *  Featurable; na tela /admin ainda dá para OCULTAR outras.
  * ------------------------------------------------------------------ */
 
-type FeaturableReviewRaw = {
-  reviewId?: string;
-  id?: string;
-  reviewer?: {
-    displayName?: string;
-    profilePhotoUrl?: string;
-    isAnonymous?: boolean;
-  };
-  author?: string;
-  profilePhotoUrl?: string;
-  starRating?: number | string;
-  rating?: number;
-  comment?: string;
+type FeaturableReview = {
+  id: string;
+  author?: { name?: string; avatarUrl?: string | null; profileUrl?: string | null };
   text?: string;
-  createTime?: string;
-  updateTime?: string;
-  relativeTimeDescription?: string;
+  originalText?: string;
+  rating?: { value?: number; max?: number };
+  publishedAt?: string;
+  updatedAt?: string;
+  url?: string | null;
 };
 
 type FeaturableResponse = {
   success?: boolean;
-  reviews?: FeaturableReviewRaw[];
-  averageRating?: number;
-  totalReviewCount?: number;
-  totalReviews?: number;
-  profileUrl?: string;
-  googleMapsUrl?: string;
+  widget?: {
+    reviews?: FeaturableReview[];
+    gbpLocationSummary?: {
+      reviewsCount?: number;
+      rating?: number;
+      writeAReviewUri?: string;
+    };
+  };
 };
-
-const STAR_WORDS: Record<string, number> = {
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
-};
-
-function toRating(v: number | string | undefined): number {
-  if (typeof v === "number") return v;
-  if (typeof v === "string") return STAR_WORDS[v.toUpperCase()] ?? (Number(v) || 0);
-  return 0;
-}
 
 function relativeTime(iso: string | undefined): string {
   if (!iso) return "";
@@ -100,7 +80,7 @@ export async function fetchGoogleReviews(): Promise<GooglePlaceReviews> {
 
   let res: Response;
   try {
-    res = await fetch(`https://featurable.com/api/v1/widgets/${widgetId}`, {
+    res = await fetch(`https://featurable.com/api/v2/widgets/${widgetId}`, {
       headers: { Accept: "application/json" },
       next: { revalidate: 43_200, tags: ["google-reviews"] },
     });
@@ -113,24 +93,32 @@ export async function fetchGoogleReviews(): Promise<GooglePlaceReviews> {
   }
 
   const data = (await res.json()) as FeaturableResponse;
-  const rawList = Array.isArray(data.reviews) ? data.reviews : [];
+  const widget = data.widget ?? {};
+  const rawList = Array.isArray(widget.reviews) ? widget.reviews : [];
+  const summary = widget.gbpLocationSummary ?? {};
 
-  const reviews: GoogleReview[] = rawList.map((r, i) => ({
-    id: r.reviewId ?? r.id ?? `featurable-${i}`,
-    author: r.reviewer?.displayName ?? r.author ?? "Usuário do Google",
-    authorPhoto: r.reviewer?.profilePhotoUrl ?? r.profilePhotoUrl ?? null,
-    authorUrl: null,
-    rating: toRating(r.starRating ?? r.rating),
-    text: r.comment ?? r.text ?? "",
-    relativeTime: r.relativeTimeDescription ?? relativeTime(r.createTime ?? r.updateTime),
-    publishTime: r.createTime ?? r.updateTime ?? "",
-  }));
+  const clip = (s: string, max = 260) =>
+    s.length > max ? s.slice(0, max).trimEnd() + "…" : s;
+
+  const reviews: GoogleReview[] = rawList
+    .filter((r) => (r.originalText || r.text || "").trim().length > 0)
+    .map((r, i) => ({
+      id: r.id ?? `featurable-${i}`,
+      author: r.author?.name ?? "Usuário do Google",
+      authorPhoto: r.author?.avatarUrl ?? null,
+      authorUrl: r.author?.profileUrl ?? r.url ?? null,
+      rating: r.rating?.value ?? 0,
+      // originalText = texto original (pt-BR); text = versão traduzida pelo Featurable
+      text: clip((r.originalText || r.text || "").trim()),
+      relativeTime: relativeTime(r.publishedAt ?? r.updatedAt),
+      publishTime: r.publishedAt ?? r.updatedAt ?? "",
+    }));
 
   return {
     configured: true,
-    rating: data.averageRating ?? null,
-    total: data.totalReviewCount ?? data.totalReviews ?? null,
-    mapsUri: data.googleMapsUrl ?? data.profileUrl ?? null,
+    rating: summary.rating ?? null,
+    total: summary.reviewsCount ?? null,
+    mapsUri: summary.writeAReviewUri ?? null,
     reviews,
     error: null,
   };

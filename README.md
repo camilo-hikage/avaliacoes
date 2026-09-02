@@ -2,14 +2,14 @@
 
 Site com uma seção de avaliações que junta:
 
-- **Bloco B — Google:** até 5 avaliações do local, buscadas ao vivo na **Places API (New)**.
-  No painel você pode **ocultar** as que não quiser mostrar.
+- **Bloco B — Google:** avaliações do local, buscadas via **Featurable** (plano gratuito, sem cartão).
+  A curadoria principal (quais sincronizar) é feita no painel do Featurable; na tela `/admin`
+  você ainda pode **ocultar** avaliações específicas.
 - **Bloco C — Depoimentos do site:** qualquer visitante envia uma avaliação pelo formulário;
   ela fica **pendente** até você **aprovar** no painel `/admin`. Você também pode **destacar**.
 
-> ⚠️ Como você **não é o dono** do local no Google, a Places API só entrega 5 avaliações e
-> **não permite armazenar o texto** delas. Por isso o bloco B é ao vivo (só guardamos o id das
-> ocultadas). Curadoria completa só existe no bloco C.
+> Deixe `FEATURABLE_WIDGET_ID` vazio para desativar o bloco B — o site funciona só com os
+> depoimentos do próprio site.
 
 ## Stack (tudo em plano gratuito)
 
@@ -17,7 +17,7 @@ Site com uma seção de avaliações que junta:
 | --- | --- |
 | Framework / hospedagem | Next.js 15 (App Router) na **Vercel** |
 | Banco + login do admin | **Supabase** (Postgres + Auth por magic link) |
-| Avaliações do Google | **Places API (New)** do Google Cloud |
+| Avaliações do Google | **Featurable** (grátis, sem cartão) |
 | Atualização diária do cache | **Vercel Cron** (`vercel.json`) |
 
 ---
@@ -35,17 +35,16 @@ Site com uma seção de avaliações que junta:
    - `Redirect URLs`: adicione
      `http://localhost:3000/auth/callback` e `https://SEU-APP.vercel.app/auth/callback`
 
-## 2. Google Places API (New)
+## 2. Featurable (avaliações do Google, grátis)
 
-1. <https://console.cloud.google.com> → crie um projeto.
-2. **APIs & Services → Library** → ative **Places API (New)**.
-3. **APIs & Services → Credentials → Create credentials → API key**.
-   - Em **API restrictions**, restrinja à *Places API (New)*.
-   - Guarde em `GOOGLE_MAPS_API_KEY`.
-4. Descubra o **Place ID** do local:
-   <https://developers.google.com/maps/documentation/places/web-service/place-id> → `GOOGLE_PLACE_ID`.
-5. Ative o faturamento no projeto Google (a Places API exige um cartão, mas há
-   crédito mensal gratuito que cobre folgado ~1 requisição/dia).
+1. Crie uma conta em <https://featurable.com> (não pede cartão).
+2. **Create widget** → selecione o local do Google (usa o Place ID do estabelecimento).
+3. No painel do widget, escolha quais avaliações sincronizar.
+4. Copie o **Widget ID** (aparece na URL do painel, no código de embed e no link
+   `https://featurable.com/api/v2/widgets/<ID>`) → `FEATURABLE_WIDGET_ID`.
+
+O app consome `GET https://featurable.com/api/v2/widgets/<ID>` e mostra o texto original
+(`originalText`) das avaliações. Resultado fica em cache por 12 h.
 
 ## 3. Rodar localmente
 
@@ -87,7 +86,7 @@ src/
     api/refresh/route.ts     Endpoint do cron
   components/                StarRating, ReviewCard, TestimonialForm
   lib/
-    google.ts                Chamada à Places API (New) + cache de 12h
+    google.ts                Chamada à API do Featurable + cache de 12h
     auth.ts                  getAdminUser() — valida contra ADMIN_EMAILS
     supabase/                client (browser) · server (anon+cookies) · admin (service_role)
   middleware.ts              Renova a sessão e protege /admin
@@ -96,7 +95,7 @@ supabase/schema.sql          Tabelas + RLS
 
 ## Segurança — pontos-chave
 
-- `SUPABASE_SERVICE_ROLE_KEY` e `GOOGLE_MAPS_API_KEY` **só existem no servidor** (sem `NEXT_PUBLIC_`).
+- `SUPABASE_SERVICE_ROLE_KEY` e `FEATURABLE_WIDGET_ID` **só existem no servidor** (sem `NEXT_PUBLIC_`).
 - Escrita nas tabelas passa por **RLS** + verificação de `ADMIN_EMAILS` nas Server Actions.
 - Visitante só consegue **inserir** depoimento como `pending`; nunca aprovar nem destacar.
 - Formulário tem honeypot anti-bot. Para volume maior, adicione rate limiting ou um captcha.
