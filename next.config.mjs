@@ -7,6 +7,7 @@ const nextConfig = {
       { protocol: "https", hostname: "*.cdninstagram.com" },
       { protocol: "https", hostname: "*.behold.so" },
       { protocol: "https", hostname: "scontent.cdninstagram.com" },
+      { protocol: "https", hostname: "storage.googleapis.com" },
     ],
   },
 };

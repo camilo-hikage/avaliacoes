@@ -1,7 +1,9 @@
 import { fetchGoogleReviews } from "@/lib/google";
 import { fetchInstagramPosts } from "@/lib/instagram";
+import { fetchMenu } from "@/lib/menu";
 import { createClient } from "@/lib/supabase/server";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
+import { MenuWall } from "@/components/MenuWall";
 import { InstagramCarousel } from "@/components/InstagramCarousel";
 import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
@@ -20,10 +22,11 @@ type Testimonial = {
 export default async function Home() {
   const supabase = await createClient();
 
-  const [{ configured, rating, total, mapsUri, reviews }, insta, hiddenRes, testimonialsRes] =
+  const [{ configured, rating, total, mapsUri, reviews }, insta, menu, hiddenRes, testimonialsRes] =
     await Promise.all([
       fetchGoogleReviews(),
       fetchInstagramPosts(),
+      fetchMenu(),
       supabase.from("hidden_google_reviews").select("review_id"),
       supabase
         .from("testimonials")
@@ -94,6 +97,27 @@ export default async function Home() {
         </div>
         <TornDivider position="bottom" tone="paper" variant="wave" />
       </section>
+
+      {/* ---------------- CARDÁPIO ---------------- */}
+      {menu.configured && menu.categories.length > 0 ? (
+        <section id="cardapio" className="menu-band">
+          <div className="section-head">
+            <p className="eyebrow">Cardápio</p>
+            <h2 className="display">Direto do fogão</h2>
+          </div>
+          <MenuWall menu={menu} />
+          <div className="menu-cta">
+            <a
+              className="btn"
+              href="https://app.cardapioweb.com/tio_bar_e_restaurante"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Ver cardápio completo
+            </a>
+          </div>
+        </section>
+      ) : null}
 
       {/* ---------------- INSTAGRAM ---------------- */}
       {insta.configured && insta.posts.length > 0 ? (

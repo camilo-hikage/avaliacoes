@@ -256,6 +256,86 @@ a {
   overflow: visible;
 }
 
+/* ---------- seção: cardápio (mesmo molde das avaliações) ---------- */
+.menu-band {
+  background: #e6ddc9;
+  padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+}
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 22px 45px -30px rgba(30, 22, 8, 0.5);
+}
+.menu-card-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.menu-card-tag {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-family: var(--font-condensed);
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 0.2rem 0.55rem;
+}
+.menu-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+.menu-card:hover .menu-card-photo img {
+  transform: scale(1.06);
+}
+.menu-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  padding: 0.85rem 1rem 1rem;
+}
+.menu-card-body h4 {
+  margin: 0;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.menu-card-body p {
+  margin: 0;
+  flex: 1;
+  font-size: 0.84rem;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.menu-price {
+  font-family: var(--font-condensed);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #8a6410;
+}
+.menu-cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
 /* ---------- seção: Instagram ---------- */
 .insta-band {
   background: var(--paper);
@@ -355,8 +435,8 @@ a {
   color: var(--text);
 }
 
-/* mural com altura limitada + scroll infinito */
-.reviews-wall {
+/* mural com altura limitada + scroll infinito (avaliações e cardápio) */
+.wall {
   position: relative;
   height: min(72vh, 640px);
   overflow: hidden;
@@ -364,37 +444,37 @@ a {
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 6%, #000 93%, transparent 100%);
   mask-image: linear-gradient(180deg, transparent 0, #000 6%, #000 93%, transparent 100%);
 }
-.reviews-wall:not(.is-looping) {
+.wall:not(.is-looping) {
   overflow-y: auto;
 }
-.reviews-wall-track {
+.wall-track {
   display: flex;
   flex-direction: column;
 }
 /* masonry por colunas (JS): cada card com a própria altura, sem espaço entre linhas */
-.reviews-masonry {
+.wall-masonry {
   display: grid;
   gap: 1.1rem;
   margin-bottom: 1.1rem;
   align-items: start;
 }
-.rev-col {
+.wall-col {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
   min-width: 0;
 }
-.reviews-wall.is-looping .reviews-wall-track {
-  animation-name: reviews-scroll;
+.wall.is-looping .wall-track {
+  animation-name: wall-scroll;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   will-change: transform;
 }
-.reviews-wall.is-looping:hover .reviews-wall-track,
-.reviews-wall.is-looping:focus-within .reviews-wall-track {
+.wall.is-looping:hover .wall-track,
+.wall.is-looping:focus-within .wall-track {
   animation-play-state: paused;
 }
-@keyframes reviews-scroll {
+@keyframes wall-scroll {
   from {
     transform: translateY(0);
   }
@@ -403,10 +483,10 @@ a {
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reviews-wall.is-looping .reviews-wall-track {
+  .wall.is-looping .wall-track {
     animation: none;
   }
-  .reviews-wall.is-looping {
+  .wall.is-looping {
     overflow-y: auto;
   }
 }
@@ -773,6 +853,23 @@ button.ghost {
   object-fit: cover;
   background: #000;
   border: 2px solid var(--accent);
+}
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: #cfc6b4;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+}
+.footer-social:hover {
+  color: var(--accent);
+}
+.footer-social svg {
+  flex-shrink: 0;
 }
 .footer-brand strong {
   font-family: var(--font-display);
