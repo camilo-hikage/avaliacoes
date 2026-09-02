@@ -67,8 +67,27 @@ a:hover {
   background: var(--panel);
 }
 .site-header .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-weight: 700;
   color: var(--text);
+  text-decoration: none;
+}
+.brand-logo {
+  height: 38px;
+  width: 38px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #000;
+}
+.brand-name {
+  font-size: 1rem;
+}
+@media (max-width: 460px) {
+  .brand-name {
+    display: none;
+  }
 }
 .site-header nav {
   display: flex;
@@ -132,27 +151,18 @@ a:hover {
   display: flex;
   flex-direction: column;
 }
+/* masonry: cada card com sua própria altura, sem espaço entre as linhas */
 .reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  columns: 300px;
+  column-gap: 1rem;
   margin-bottom: 1rem; /* vira o "gap" entre as duas cópias — flex não colapsa margem */
 }
-/* cards preenchem a célula: nada de espaço vazio entre as linhas */
-.reviews-wall .card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.reviews-wall .card p {
-  display: -webkit-box;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.reviews-wall .card small {
-  margin-top: auto;
-  padding-top: 0.35rem;
+.reviews-grid > .card {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 1rem;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
 }
 .reviews-wall.is-looping .reviews-wall-track {
   animation-name: reviews-scroll;
