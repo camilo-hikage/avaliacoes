@@ -9,6 +9,7 @@ type Testimonial = {
   author: string;
   rating: number;
   text: string;
+  photo_url: string | null;
   created_at: string;
   featured: boolean;
 };
@@ -22,7 +23,7 @@ export default async function Home() {
       supabase.from("hidden_google_reviews").select("review_id"),
       supabase
         .from("testimonials")
-        .select("id, author, rating, text, created_at, featured")
+        .select("id, author, rating, text, photo_url, created_at, featured")
         .eq("status", "approved")
         .order("featured", { ascending: false })
         .order("created_at", { ascending: false }),
@@ -63,6 +64,7 @@ export default async function Home() {
                 <ReviewCard
                   key={r.id}
                   author={r.author}
+                  authorPhoto={r.authorPhoto}
                   rating={r.rating}
                   text={r.text}
                   meta={r.relativeTime}
@@ -86,6 +88,7 @@ export default async function Home() {
                 author={t.author}
                 rating={t.rating}
                 text={t.text}
+                photo={t.photo_url}
                 meta={new Date(t.created_at).toLocaleDateString("pt-BR")}
                 badge={t.featured ? "Destaque" : undefined}
               />

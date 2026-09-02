@@ -10,11 +10,15 @@ create table if not exists public.testimonials (
   author      text        not null check (char_length(author) between 2 and 80),
   rating      int         not null check (rating between 1 and 5),
   text        text        not null check (char_length(text) between 10 and 2000),
+  photo_url   text,
   status      text        not null default 'pending'
                           check (status in ('pending', 'approved', 'rejected')),
   featured    boolean     not null default false,
   created_at  timestamptz not null default now()
 );
+
+-- para bancos que já tinham a tabela sem a coluna de foto
+alter table public.testimonials add column if not exists photo_url text;
 
 alter table public.testimonials enable row level security;
 
@@ -60,3 +64,21 @@ create policy "publico le ocultos"
 
 -- índice auxiliar
 create index if not exists testimonials_status_idx on public.testimonials (status, featured, created_at desc);
+
+-- ---------------------------------------------------------------------
+--  Storage: fotos anexadas aos depoimentos do site.
+--  Bucket público (leitura livre); o upload é feito pelo servidor com a
+--  service role (rota /api/testimonial), com limite de tamanho/mime.
+-- ---------------------------------------------------------------------
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'testimonials',
+  'testimonials',
+  true,
+  5242880,                                   -- 5 MB
+  array['image/jpeg', 'image/png', 'image/webp']
+)
+on conflict (id) do update
+  set public = excluded.public,
+      file_size_limit = excluded.file_size_limit,
+      allowed_mime_types = excluded.allowed_mime_types;

@@ -12,6 +12,7 @@ type Testimonial = {
   author: string;
   rating: number;
   text: string;
+  photo_url: string | null;
   status: "pending" | "approved" | "rejected";
   featured: boolean;
   created_at: string;
@@ -47,6 +48,10 @@ export default async function AdminPage() {
             <div>
               <strong>{t.author}</strong> <StarRating value={t.rating} />
               <p>{t.text}</p>
+              {t.photo_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="review-photo" src={t.photo_url} alt="Foto enviada" loading="lazy" />
+              ) : null}
               <small>{new Date(t.created_at).toLocaleString("pt-BR")}</small>
             </div>
             <AdminControls kind="testimonial" id={t.id} status={t.status} featured={t.featured} />
@@ -63,6 +68,10 @@ export default async function AdminPage() {
               <span className={`tag tag-${t.status}`}>{t.status}</span>
               {t.featured ? <span className="tag">destaque</span> : null}
               <p>{t.text}</p>
+              {t.photo_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className="review-photo" src={t.photo_url} alt="Foto enviada" loading="lazy" />
+              ) : null}
             </div>
             <AdminControls kind="testimonial" id={t.id} status={t.status} featured={t.featured} />
           </article>
@@ -73,13 +82,13 @@ export default async function AdminPage() {
         <h2>Avaliações do Google</h2>
         {!google.configured ? (
           <p className="muted">
-            Bloco do Google desativado. Defina <code>GOOGLE_MAPS_API_KEY</code> e{" "}
-            <code>GOOGLE_PLACE_ID</code> no ambiente para ativá-lo.
+            Bloco do Google desativado. Defina <code>FEATURABLE_WIDGET_ID</code> no ambiente para
+            ativá-lo.
           </p>
         ) : (
           <p className="muted">
-            A Places API entrega até 5 avaliações, ao vivo. Aqui você só pode <em>ocultar</em> as que
-            não quer mostrar na home.
+            Vêm do Featurable. A curadoria principal é no painel do Featurable; aqui você pode{" "}
+            <em>ocultar</em> avaliações específicas da home.
           </p>
         )}
         {google.error ? <p className="err">{google.error}</p> : null}
