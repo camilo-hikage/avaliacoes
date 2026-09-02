@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
 import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
+import { TornDivider } from "@/components/TornDivider";
 
 type Testimonial = {
   id: string;
@@ -40,10 +41,9 @@ export default async function Home() {
     text: t.text,
     photo: t.photo_url,
     meta: new Date(t.created_at).toLocaleDateString("pt-BR"),
-    badge: t.featured ? "Destaque" : undefined,
+    badge: t.featured ? "Destaque" : "Cliente",
   });
 
-  // destaques primeiro, depois Google, depois os demais depoimentos do site
   const items: WallItem[] = [
     ...testimonials.filter((t) => t.featured).map(asWall),
     ...googleReviews.map((r) => ({
@@ -60,30 +60,49 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="reviews-band">
-        <div className="wrap reviews-band-head">
-          <h1>Avaliações</h1>
+      {/* ---------------- HERO ---------------- */}
+      <section className="hero">
+        <div className="hero-inner">
+          <p className="eyebrow">Tio Bar e Restaurante</p>
+          <h1 className="display">O que dizem por aí</h1>
           {configured && rating != null ? (
-            <p className="summary">
-              <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
+            <p className="hero-rating">
+              <StarRating value={rating} />
+              <span>
+                <strong>{rating.toFixed(1)}</strong> · {total} avaliações no Google
+              </span>
               {mapsUri ? (
-                <>
-                  {" · "}
-                  <a href={mapsUri} target="_blank" rel="noreferrer">
-                    ver no Google
-                  </a>
-                </>
+                <a href={mapsUri} target="_blank" rel="noreferrer">
+                  ver no Google
+                </a>
               ) : null}
             </p>
           ) : null}
         </div>
-
-        <ReviewsWall items={items} />
+        <TornDivider position="bottom" tone="paper" variant="wave" />
       </section>
 
-      <section id="avaliar" className="wrap">
-        <h2>Deixe sua avaliação</h2>
-        <TestimonialForm />
+      {/* ---------------- MURAL DE AVALIAÇÕES ---------------- */}
+      <section className="reviews-band">
+        <div className="section-head">
+          <p className="eyebrow">Avaliações</p>
+          <h2 className="display">Palavra de quem já veio</h2>
+        </div>
+        <ReviewsWall items={items} />
+        <TornDivider position="bottom" tone="ink" />
+      </section>
+
+      {/* ---------------- CHAMADA / FORMULÁRIO ---------------- */}
+      <section id="avaliar" className="cta-band">
+        <div className="cta-inner">
+          <p className="eyebrow">Sua vez</p>
+          <h2 className="display">Deixe a sua avaliação</h2>
+          <p className="cta-lead">
+            Comeu, bebeu, curtiu a música? Conta pra gente — depois de aprovada, sua avaliação
+            aparece aqui no mural.
+          </p>
+          <TestimonialForm />
+        </div>
       </section>
     </main>
   );
