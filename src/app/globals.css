@@ -89,16 +89,17 @@ a {
   left: 0;
   right: 0;
   top: 100%;
-  height: 22px;
+  height: 34px;
   line-height: 0;
   pointer-events: none;
   z-index: 1;
-  filter: drop-shadow(0 3px 6px rgba(224, 175, 28, 0.25));
+  filter: drop-shadow(0 4px 7px rgba(224, 175, 28, 0.28));
 }
 .header-edge svg {
   display: block;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 .nav-side {
   display: flex;
@@ -247,6 +248,12 @@ a {
 .torn-top {
   top: -1px;
   transform: scaleY(-1);
+}
+.torn-wave {
+  height: 34px;
+}
+.torn-wave svg {
+  overflow: visible;
 }
 
 /* ---------- seção: mural de avaliações ---------- */

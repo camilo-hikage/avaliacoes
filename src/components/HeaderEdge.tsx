@@ -1,23 +1,18 @@
+import { WAVE_D, WAVE_VIEWBOX } from "@/lib/shapes";
+
 /**
- * Borda inferior do cabeçalho recortada em ondas arredondadas,
- * ecoando o contorno do chapéu de chef do logotipo.
+ * Borda inferior do cabeçalho: a mesma onda (WAVE_D) usada na divisória
+ * da seção de avaliações, preservando o traço dourado da borda.
  */
 export function HeaderEdge() {
-  const bumps = 26;
-  const bump = "q24,26 48,0 ";
-  const scallop = "M0,3 " + bump.repeat(bumps);
-  const filled = `${scallop}L${48 * bumps},28 L0,28 Z`;
-
   return (
     <span className="header-edge" aria-hidden="true">
-      <svg
-        viewBox={`0 0 ${48 * bumps} 28`}
-        preserveAspectRatio="none"
-        focusable="false"
-      >
-        <path d={filled} fill="var(--ink)" />
+      <svg viewBox={WAVE_VIEWBOX} preserveAspectRatio="none" focusable="false">
+        {/* preenchimento escuro descendo do header até a onda */}
+        <path d={`${WAVE_D} L1200,0 L0,0 Z`} fill="var(--ink)" />
+        {/* traço dourado acompanhando a onda */}
         <path
-          d={scallop}
+          d={WAVE_D}
           fill="none"
           stroke="var(--accent)"
           strokeWidth="2.5"
