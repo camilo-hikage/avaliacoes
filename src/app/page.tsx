@@ -1,7 +1,7 @@
 import { fetchGoogleReviews } from "@/lib/google";
 import { fetchInstagramPosts } from "@/lib/instagram";
 import { fetchMenu } from "@/lib/menu";
-import { createClient } from "@/lib/supabase/server";
+import { fetchHomeSupabaseData, type Testimonial } from "@/lib/testimonials";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
 import { MenuWall } from "@/components/MenuWall";
 import { InstagramCarousel } from "@/components/InstagramCarousel";
@@ -9,36 +9,20 @@ import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
 import { TornDivider } from "@/components/TornDivider";
 
-type Testimonial = {
-  id: string;
-  author: string;
-  rating: number;
-  text: string;
-  photo_url: string | null;
-  created_at: string;
-  featured: boolean;
-};
+// a home lê a sessão/depoimentos do Supabase -> render por request
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const supabase = await createClient();
+  const [{ configured, rating, total, mapsUri, reviews }, insta, menu, supa] = await Promise.all([
+    fetchGoogleReviews(),
+    fetchInstagramPosts(),
+    fetchMenu(),
+    fetchHomeSupabaseData(),
+  ]);
 
-  const [{ configured, rating, total, mapsUri, reviews }, insta, menu, hiddenRes, testimonialsRes] =
-    await Promise.all([
-      fetchGoogleReviews(),
-      fetchInstagramPosts(),
-      fetchMenu(),
-      supabase.from("hidden_google_reviews").select("review_id"),
-      supabase
-        .from("testimonials")
-        .select("id, author, rating, text, photo_url, created_at, featured")
-        .eq("status", "approved")
-        .order("featured", { ascending: false })
-        .order("created_at", { ascending: false }),
-    ]);
-
-  const hidden = new Set((hiddenRes.data ?? []).map((h) => h.review_id));
+  const hidden = new Set(supa.hiddenReviewIds);
   const googleReviews = reviews.filter((r) => !hidden.has(r.id));
-  const testimonials = (testimonialsRes.data ?? []) as Testimonial[];
+  const testimonials: Testimonial[] = supa.approvedTestimonials;
 
   // --- Mapa (sem chave: embed público do Google Maps) ---
   const mapsQuery = process.env.NEXT_PUBLIC_MAPS_QUERY || "Tio Bar e Restaurante";
