@@ -34,70 +34,75 @@ export default async function Home() {
   const testimonials = (testimonialsRes.data ?? []) as Testimonial[];
 
   return (
-    <main className="wrap">
-      <h1>Avaliações</h1>
+    <main>
+      {/* ---------- SEÇÃO DE AVALIAÇÕES (full-width, com fade) ---------- */}
+      <section className="reviews-band">
+        <div className="wrap">
+          <header className="reviews-band-head">
+            <h1>Avaliações</h1>
+            {configured && rating != null ? (
+              <p className="summary">
+                <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
+                {mapsUri ? (
+                  <>
+                    {" · "}
+                    <a href={mapsUri} target="_blank" rel="noreferrer">
+                      ver no Google
+                    </a>
+                  </>
+                ) : null}
+              </p>
+            ) : null}
+          </header>
 
-      {configured && rating != null ? (
-        <p className="summary">
-          <StarRating value={rating} /> {rating.toFixed(1)} · {total} avaliações no Google
-          {mapsUri ? (
+          {configured ? (
             <>
-              {" · "}
-              <a href={mapsUri} target="_blank" rel="noreferrer">
-                ver no Google
-              </a>
+              <h2>Do Google</h2>
+              <div className="grid">
+                {googleReviews.length === 0 ? (
+                  <p className="muted">
+                    {error ?? "Nenhuma avaliação do Google para exibir no momento."}
+                  </p>
+                ) : (
+                  googleReviews.map((r) => (
+                    <ReviewCard
+                      key={r.id}
+                      author={r.author}
+                      authorPhoto={r.authorPhoto}
+                      rating={r.rating}
+                      text={r.text}
+                      meta={r.relativeTime}
+                      badge="Google"
+                    />
+                  ))
+                )}
+              </div>
             </>
           ) : null}
-        </p>
-      ) : null}
 
-      {configured ? (
-        <section>
-          <h2>Do Google</h2>
+          <h2>{configured ? "Dos nossos clientes" : "O que dizem os clientes"}</h2>
           <div className="grid">
-            {googleReviews.length === 0 ? (
-              <p className="muted">
-                {error ?? "Nenhuma avaliação do Google para exibir no momento."}
-              </p>
+            {testimonials.length === 0 ? (
+              <p className="muted">Seja o primeiro a deixar uma avaliação!</p>
             ) : (
-              googleReviews.map((r) => (
+              testimonials.map((t) => (
                 <ReviewCard
-                  key={r.id}
-                  author={r.author}
-                  authorPhoto={r.authorPhoto}
-                  rating={r.rating}
-                  text={r.text}
-                  meta={r.relativeTime}
-                  badge="Google"
+                  key={t.id}
+                  author={t.author}
+                  rating={t.rating}
+                  text={t.text}
+                  photo={t.photo_url}
+                  meta={new Date(t.created_at).toLocaleDateString("pt-BR")}
+                  badge={t.featured ? "Destaque" : undefined}
                 />
               ))
             )}
           </div>
-        </section>
-      ) : null}
-
-      <section>
-        <h2>{configured ? "Dos nossos clientes" : "O que dizem os clientes"}</h2>
-        <div className="grid">
-          {testimonials.length === 0 ? (
-            <p className="muted">Seja o primeiro a deixar uma avaliação!</p>
-          ) : (
-            testimonials.map((t) => (
-              <ReviewCard
-                key={t.id}
-                author={t.author}
-                rating={t.rating}
-                text={t.text}
-                photo={t.photo_url}
-                meta={new Date(t.created_at).toLocaleDateString("pt-BR")}
-                badge={t.featured ? "Destaque" : undefined}
-              />
-            ))
-          )}
         </div>
       </section>
 
-      <section id="avaliar">
+      {/* ---------- FORMULÁRIO ---------- */}
+      <section id="avaliar" className="wrap">
         <h2>Deixe sua avaliação</h2>
         <TestimonialForm />
       </section>

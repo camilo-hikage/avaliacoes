@@ -11,6 +11,7 @@
   --ok-text: #047857;
   --err-bg: #fef2f2;
   --err-text: #b91c1c;
+  --band-tint: rgba(79, 70, 229, 0.11);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@
     --ok-text: #6ee7b7;
     --err-bg: #2a1516;
     --err-text: #fca5a5;
+    --band-tint: rgba(139, 140, 249, 0.18);
   }
 }
 
@@ -90,6 +92,36 @@ a:hover {
   max-width: 420px;
 }
 
+/* Seção de avaliações: ocupa a largura toda, com fade no topo e na base */
+.reviews-band {
+  width: 100%;
+  margin: 1.5rem 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--band-tint) 12%,
+    var(--band-tint) 86%,
+    transparent 100%
+  );
+}
+.reviews-band > .wrap {
+  max-width: 1200px;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+.reviews-band-head {
+  margin-bottom: 1.5rem;
+}
+.reviews-band-head h1 {
+  margin-bottom: 0.35rem;
+}
+.reviews-band .summary {
+  margin: 0;
+}
+.reviews-band h2:first-of-type {
+  margin-top: 0.5rem;
+}
+
 h1 {
   font-size: 1.9rem;
   margin: 0 0 0.5rem;
@@ -140,9 +172,8 @@ h2 {
   min-width: 0;
 }
 .card-author strong {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 .card p {
   margin: 0.5rem 0 0.25rem;
