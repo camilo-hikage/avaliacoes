@@ -1,6 +1,8 @@
 import { fetchGoogleReviews } from "@/lib/google";
+import { fetchInstagramPosts } from "@/lib/instagram";
 import { createClient } from "@/lib/supabase/server";
 import { ReviewsWall, type WallItem } from "@/components/ReviewsWall";
+import { InstagramCarousel } from "@/components/InstagramCarousel";
 import { TestimonialForm } from "@/components/TestimonialForm";
 import { StarRating } from "@/components/StarRating";
 import { TornDivider } from "@/components/TornDivider";
@@ -18,9 +20,10 @@ type Testimonial = {
 export default async function Home() {
   const supabase = await createClient();
 
-  const [{ configured, rating, total, mapsUri, reviews }, hiddenRes, testimonialsRes] =
+  const [{ configured, rating, total, mapsUri, reviews }, insta, hiddenRes, testimonialsRes] =
     await Promise.all([
       fetchGoogleReviews(),
+      fetchInstagramPosts(),
       supabase.from("hidden_google_reviews").select("review_id"),
       supabase
         .from("testimonials")
@@ -81,6 +84,19 @@ export default async function Home() {
         </div>
         <TornDivider position="bottom" tone="paper" variant="wave" />
       </section>
+
+      {/* ---------------- INSTAGRAM ---------------- */}
+      {insta.configured && insta.posts.length > 0 ? (
+        <section className="insta-band">
+          <div className="section-head">
+            <p className="eyebrow">
+              No Instagram{insta.username ? ` · @${insta.username}` : ""}
+            </p>
+            <h2 className="display">Últimos momentos no Tio</h2>
+          </div>
+          <InstagramCarousel posts={insta.posts} />
+        </section>
+      ) : null}
 
       {/* ---------------- MURAL DE AVALIAÇÕES ---------------- */}
       <section className="reviews-band">

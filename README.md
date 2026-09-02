@@ -46,6 +46,16 @@ Site com uma seção de avaliações que junta:
 O app consome `GET https://featurable.com/api/v2/widgets/<ID>` e mostra o texto original
 (`originalText`) das avaliações. Resultado fica em cache por 12 h.
 
+## 2b. Carrossel do Instagram (Behold.so, grátis) — opcional
+
+1. Crie uma conta em <https://behold.so> e conecte o Instagram do estabelecimento.
+2. No feed criado, copie o **Feed ID** (link da API: `https://feeds.behold.so/<feedId>`).
+3. Coloque em `BEHOLD_FEED_ID`. Vazio = a seção "No Instagram" fica escondida.
+
+> As imagens vêm do CDN do Instagram e os links podem expirar depois de alguns dias.
+> Se precisar de estabilidade, o plano pago do Behold serve as imagens pelo domínio deles.
+> Alternativa sem serviço: uma galeria própria (upload das fotos no `/admin`).
+
 ## 3. Rodar localmente
 
 ```bash
