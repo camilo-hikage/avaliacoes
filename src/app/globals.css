@@ -524,6 +524,43 @@ a {
   margin: 0.75rem 0 1.75rem;
 }
 
+/* ---------- seção do mapa (full width, antes do footer) ---------- */
+.map-band {
+  background: var(--ink-2);
+  border-top: 1px solid rgba(224, 175, 28, 0.25);
+  padding: clamp(3rem, 7vw, 5rem) 0 0;
+  text-align: center;
+}
+.map-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 1.25rem 1.75rem;
+}
+.map-band .eyebrow {
+  color: var(--accent);
+}
+.map-band h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #fbf7ec;
+  margin-bottom: 1.4rem;
+}
+.map-frame {
+  width: 100%;
+  overflow: hidden;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  background: var(--ink);
+}
+.map-frame iframe {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 42vw, 460px);
+  border: 0;
+  /* aproxima as cores do mapa da paleta do site: escuro, quente e amarelado */
+  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.9) sepia(0.55)
+    saturate(0.85);
+}
+
 /* ---------- formulários ---------- */
 .form {
   display: grid;

@@ -37,6 +37,16 @@ export default async function Home() {
   const googleReviews = reviews.filter((r) => !hidden.has(r.id));
   const testimonials = (testimonialsRes.data ?? []) as Testimonial[];
 
+  // --- Mapa (sem chave: embed público do Google Maps) ---
+  const mapsQuery = process.env.NEXT_PUBLIC_MAPS_QUERY || "Tio Bar e Restaurante";
+  const mapsPlaceId = process.env.NEXT_PUBLIC_MAPS_PLACE_ID || "";
+  const mapsEmbedUrl =
+    process.env.NEXT_PUBLIC_MAPS_EMBED_URL ||
+    `https://www.google.com/maps?q=${encodeURIComponent(mapsQuery)}&z=16&output=embed`;
+  const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+    mapsQuery,
+  )}${mapsPlaceId ? `&destination_place_id=${mapsPlaceId}` : ""}`;
+
   const asWall = (t: Testimonial): WallItem => ({
     key: `t-${t.id}`,
     author: t.author,
@@ -118,6 +128,26 @@ export default async function Home() {
             aparece aqui no mural.
           </p>
           <TestimonialForm />
+        </div>
+      </section>
+
+      {/* ---------------- MAPA ---------------- */}
+      <section className="map-band">
+        <div className="map-inner">
+          <p className="eyebrow">Onde ficamos</p>
+          <h2 className="display">Venha nos visitar</h2>
+          <a className="btn" href={mapsDirectionsUrl} target="_blank" rel="noreferrer">
+            Como chegar
+          </a>
+        </div>
+        <div className="map-frame">
+          <iframe
+            src={mapsEmbedUrl}
+            title="Mapa — Tio Bar e Restaurante"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
         </div>
       </section>
     </main>
