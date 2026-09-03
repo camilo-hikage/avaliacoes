@@ -9,23 +9,40 @@ export function TornDivider({
   position,
   tone = "paper",
   variant = "torn",
+  fill: fillProp,
+  stroke = "accent",
 }: {
   position: "top" | "bottom";
   tone?: "paper" | "ink";
   variant?: "torn" | "wave";
+  /** cor sólida da onda; sobrepõe `tone` quando informada */
+  fill?: string;
+  /** cor do traço da onda: dourado padrão ou degradê marrom */
+  stroke?: "accent" | "brown";
 }) {
-  const fill = tone === "ink" ? "var(--ink)" : "var(--paper)";
+  const fill = fillProp ?? (tone === "ink" ? "var(--ink)" : "var(--paper)");
 
   if (variant === "wave") {
+    const gradId = "wave-stroke-brown";
+    const strokeValue = stroke === "brown" ? `url(#${gradId})` : "var(--accent)";
     return (
       <div className={`torn torn-${position} torn-wave`} aria-hidden="true">
         <svg viewBox={WAVE_VIEWBOX} preserveAspectRatio="none" focusable="false">
+          {stroke === "brown" ? (
+            <defs>
+              <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="#5a3c1f" />
+                <stop offset="0.5" stopColor="#c88f52" />
+                <stop offset="1" stopColor="#5a3c1f" />
+              </linearGradient>
+            </defs>
+          ) : null}
           <path d={`${WAVE_D} L1200,26 L0,26 Z`} fill={fill} />
           <path
             d={WAVE_D}
             fill="none"
-            stroke="var(--accent)"
-            strokeWidth="2.5"
+            stroke={strokeValue}
+            strokeWidth={stroke === "brown" ? "4" : "2.5"}
             vectorEffect="non-scaling-stroke"
           />
         </svg>

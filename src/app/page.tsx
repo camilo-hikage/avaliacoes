@@ -72,6 +72,9 @@ export default async function Home() {
             bairro do Limão e à Zona Norte por terem mudado a minha vida.
           </p>
         </div>
+        {menu.configured && menu.categories.length > 0 ? (
+          <TornDivider position="bottom" variant="wave" fill="#e6ddc9" stroke="brown" />
+        ) : null}
       </section>
 
       {/* ---------------- CARDÁPIO ---------------- */}
