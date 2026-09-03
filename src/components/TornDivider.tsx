@@ -5,21 +5,31 @@ import { WAVE_D, WAVE_VIEWBOX } from "@/lib/shapes";
  * variant "torn" = papel rasgado; "wave" = a onda compartilhada (WAVE_D).
  * `tone` = cor que "invade" a seção de baixo.
  */
-/** segunda onda, com fase diferente, para as camadas não ficarem paralelas */
-const WAVE_D2 =
-  "M0,15 C 120,22 260,24 420,16 C 560,9 690,6 840,13 C 980,19 1080,21 1200,15";
+/* Curvas acentuadas para a divisória "layered" (viewBox 0 0 1200 130).
+   Cristas e vales bem marcados; duas fases diferentes para as linhas se cruzarem.
+   Vão de -140 a 1340 (folga nas pontas) para a animação de deriva não abrir vão. */
+const WAVE_L1 =
+  "M-140,42 C 40,-16 220,-18 460,34 C 600,66 740,82 900,44 C 1060,8 1180,-6 1340,40";
+const WAVE_L2 =
+  "M-140,32 C 60,90 260,98 450,40 C 580,-4 700,-14 840,32 C 980,74 1120,86 1340,30";
+
+/** degradês de cor por camada (topo → base da pilha) */
+const RAMPS = {
+  brown: ["#2e1f11", "#553a22", "#835c3a", "#ac835b", "#cdae86", "#e6ddc9"],
+  gold: ["#c69410", "#d9a81c", "#e6bd3f", "#eed07a", "#f4e3b4", "#e6ddc9"],
+} as const;
 
 /**
  * Camadas empilhadas da divisória "layered": deslocamento vertical, espelhamento
- * horizontal, curva usada, cor (degradê marrom → bege), traço, opacidades.
+ * horizontal, curva usada, traço e opacidades. A cor vem de `RAMPS[ramp]`.
  */
 const LAYERS = [
-  { dy: 4, flip: false, d: WAVE_D, color: "#2e1f11", w: 1.5, op: 0.4, fillOp: 0 },
-  { dy: 12, flip: true, d: WAVE_D2, color: "#553a22", w: 2, op: 0.5, fillOp: 0.12 },
-  { dy: 21, flip: false, d: WAVE_D, color: "#835c3a", w: 2.5, op: 0.65, fillOp: 0.2 },
-  { dy: 31, flip: true, d: WAVE_D2, color: "#ac835b", w: 2.5, op: 0.8, fillOp: 0.34 },
-  { dy: 41, flip: false, d: WAVE_D, color: "#cdae86", w: 3, op: 0.92, fillOp: 0.6 },
-  { dy: 50, flip: true, d: WAVE_D2, color: "#e6ddc9", w: 3, op: 1, fillOp: 1 },
+  { dy: 2, flip: false, d: WAVE_L1, w: 1.5, op: 0.4, fillOp: 0 },
+  { dy: 16, flip: true, d: WAVE_L2, w: 2, op: 0.5, fillOp: 0.12 },
+  { dy: 30, flip: false, d: WAVE_L1, w: 2.5, op: 0.65, fillOp: 0.2 },
+  { dy: 44, flip: true, d: WAVE_L2, w: 3, op: 0.8, fillOp: 0.34 },
+  { dy: 58, flip: false, d: WAVE_L1, w: 3.5, op: 0.92, fillOp: 0.6 },
+  { dy: 72, flip: true, d: WAVE_L2, w: 3.5, op: 1, fillOp: 1 },
 ] as const;
 
 export function TornDivider({
@@ -28,6 +38,7 @@ export function TornDivider({
   variant = "torn",
   fill: fillProp,
   stroke = "accent",
+  ramp = "brown",
 }: {
   position: "top" | "bottom";
   tone?: "paper" | "ink";
@@ -36,27 +47,36 @@ export function TornDivider({
   fill?: string;
   /** cor do traço da onda: dourado padrão ou degradê marrom */
   stroke?: "accent" | "brown";
+  /** degradê de cor da divisória em camadas */
+  ramp?: "brown" | "gold";
 }) {
   const fill = fillProp ?? (tone === "ink" ? "var(--ink)" : "var(--paper)");
 
   if (variant === "layered") {
+    const colors = RAMPS[ramp];
     return (
       <div className={`torn torn-${position} torn-wave torn-layered`} aria-hidden="true">
-        <svg viewBox="0 0 1200 80" preserveAspectRatio="none" focusable="false">
+        <svg viewBox="0 0 1200 130" preserveAspectRatio="none" focusable="false">
           {LAYERS.map((l, i) => (
             <g key={i} transform={`translate(0,${l.dy})`}>
-              <g transform={l.flip ? "translate(1200,0) scale(-1,1)" : undefined}>
-                {l.fillOp > 0 ? (
-                  <path d={`${l.d} L1200,80 L0,80 Z`} fill={l.color} fillOpacity={l.fillOp} />
-                ) : null}
-                <path
-                  d={l.d}
-                  fill="none"
-                  stroke={l.color}
-                  strokeOpacity={l.op}
-                  strokeWidth={String(l.w)}
-                  vectorEffect="non-scaling-stroke"
-                />
+              <g className={`wave-anim wave-anim-${i + 1}`}>
+                <g transform={l.flip ? "translate(1200,0) scale(-1,1)" : undefined}>
+                  {l.fillOp > 0 ? (
+                    <path
+                      d={`${l.d} L1340,130 L-140,130 Z`}
+                      fill={colors[i]}
+                      fillOpacity={l.fillOp}
+                    />
+                  ) : null}
+                  <path
+                    d={l.d}
+                    fill="none"
+                    stroke={colors[i]}
+                    strokeOpacity={l.op}
+                    strokeWidth={String(l.w)}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </g>
               </g>
             </g>
           ))}

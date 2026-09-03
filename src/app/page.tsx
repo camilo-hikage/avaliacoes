@@ -108,7 +108,7 @@ export default async function Home() {
 
       {/* ---------------- HERO / INTRO DAS AVALIAÇÕES ---------------- */}
       <section className="hero">
-        <TornDivider position="top" tone="paper" variant="wave" />
+        <TornDivider position="top" variant="layered" ramp="gold" />
         <div className="hero-inner">
           <p className="eyebrow">Tio Bar e Restaurante</p>
           <h1 className="display">O que dizem por aí</h1>

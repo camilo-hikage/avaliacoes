@@ -177,7 +177,7 @@ a {
     linear-gradient(180deg, #12100c 0%, #1f1a12 55%, #12100c 100%);
   color: #f3eee2;
   text-align: center;
-  padding: clamp(4rem, 10vw, 7rem) 1.25rem clamp(5rem, 11vw, 8rem);
+  padding: clamp(5.5rem, 12vw, 7.5rem) 1.25rem clamp(5rem, 11vw, 8rem);
   overflow: hidden;
 }
 /* borda superior com fade amarelo */
@@ -256,10 +256,52 @@ a {
   overflow: visible;
 }
 .torn-wave.torn-layered {
-  height: 64px;
+  height: 92px;
 }
 .torn-wave.torn-layered svg {
   overflow: hidden;
+}
+.hero > .torn-wave.torn-layered {
+  height: 78px;
+}
+
+/* deriva suave das camadas — cada uma com ritmo próprio */
+@media (prefers-reduced-motion: no-preference) {
+  .torn-layered .wave-anim {
+    animation: wave-drift-a 12s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  .torn-layered .wave-anim-2 {
+    animation: wave-drift-b 9s ease-in-out infinite alternate;
+  }
+  .torn-layered .wave-anim-3 {
+    animation: wave-drift-a 15s ease-in-out infinite alternate;
+  }
+  .torn-layered .wave-anim-4 {
+    animation: wave-drift-b 10.5s ease-in-out infinite alternate;
+  }
+  .torn-layered .wave-anim-5 {
+    animation: wave-drift-a 18s ease-in-out infinite alternate;
+  }
+  .torn-layered .wave-anim-6 {
+    animation: wave-drift-b 13s ease-in-out infinite alternate;
+  }
+}
+@keyframes wave-drift-a {
+  from {
+    transform: translateX(-26px);
+  }
+  to {
+    transform: translateX(26px);
+  }
+}
+@keyframes wave-drift-b {
+  from {
+    transform: translateX(24px) translateY(-3px);
+  }
+  to {
+    transform: translateX(-30px) translateY(3px);
+  }
 }
 
 /* primeira seção da página precisa de espaço pro logo que transborda do header */
@@ -286,7 +328,7 @@ main > section[id] {
   background-size: cover;
   background-position: center 28%;
   background-repeat: no-repeat;
-  padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(4rem, 8vw, 5.5rem);
+  padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(5.5rem, 11vw, 7.5rem);
 }
 /* fio dourado no topo, como nas outras faixas escuras */
 .story-band::before {
