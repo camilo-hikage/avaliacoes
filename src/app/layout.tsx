@@ -64,7 +64,14 @@ export default function RootLayout({
                 <p>
                   <strong>{SITE_NAME}</strong>
                   <br />
-                  Comida caseira, música ao vivo e cerveja gelada.
+                  Comida gostosa com preço justo.
+                </p>
+                <p className="footer-contact">
+                  Av. Professor Celestino Bourroul, 1068
+                  <br />
+                  Limão, São Paulo · 02710-001
+                  <br />
+                  Todos os dias, 11h30 à meia-noite · Estacionamento no local
                 </p>
                 <a
                   className="footer-social"

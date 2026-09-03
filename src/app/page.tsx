@@ -16,7 +16,9 @@ export default async function Home() {
   ]);
 
   // --- Mapa (sem chave: embed público do Google Maps) ---
-  const mapsQuery = process.env.NEXT_PUBLIC_MAPS_QUERY || "Tio Bar e Restaurante";
+  const mapsQuery =
+    process.env.NEXT_PUBLIC_MAPS_QUERY ||
+    "Tio Bar e Restaurante, Av. Professor Celestino Bourroul, 1068 - Limão, São Paulo";
   const mapsPlaceId = process.env.NEXT_PUBLIC_MAPS_PLACE_ID || "";
   const mapsEmbedUrl =
     process.env.NEXT_PUBLIC_MAPS_EMBED_URL ||
@@ -147,10 +149,25 @@ export default async function Home() {
       </section>
 
       {/* ---------------- MAPA ---------------- */}
-      <section className="map-band">
+      <section id="mapa" className="map-band">
         <div className="map-inner">
           <p className="eyebrow">Onde ficamos</p>
           <h2 className="display">Venha nos visitar</h2>
+          <p className="venue-tagline">Comida gostosa com preço justo.</p>
+          <ul className="venue-info">
+            <li>
+              <span>Endereço</span>
+              Av. Professor Celestino Bourroul, 1068 — Limão, São Paulo · 02710-001
+            </li>
+            <li>
+              <span>Horário</span>
+              Todos os dias, das 11h30 à meia-noite
+            </li>
+            <li>
+              <span>Estacionamento</span>
+              No local
+            </li>
+          </ul>
           <a className="btn" href={mapsDirectionsUrl} target="_blank" rel="noreferrer">
             Como chegar
           </a>
