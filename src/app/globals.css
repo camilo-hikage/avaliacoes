@@ -172,33 +172,35 @@ a {
 }
 @media (max-width: 720px) {
   .site-header {
-    /* barra fina presa no topo: menu numa linha só, logo centralizado
-       transbordando a borda de baixo (a onda) */
+    /* barra fina presa no topo: menu numa linha só, links empurrados para as
+       bordas, logo grande centralizado, colado no topo e transbordando a
+       borda de baixo (a onda) */
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.3rem 0.9rem;
-    padding: 0.7rem 0.75rem 3.1rem;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.7rem 0.6rem 2.7rem;
   }
   .site-header .brand {
     order: 3;
     position: absolute;
     left: 50%;
-    bottom: 0;
-    transform: translate(-50%, 40%);
+    top: 0.1rem;
+    transform: translateX(-50%);
     z-index: 3;
   }
   .brand-badge {
-    width: 92px;
-    height: 92px;
+    /* cresce com a tela, sempre cabendo entre os dois grupos de links */
+    width: clamp(100px, 28vw, 126px);
+    height: clamp(100px, 28vw, 126px);
     margin: 0;
   }
   .nav-side {
     flex-wrap: nowrap;
-    gap: 0.9rem;
-    font-size: clamp(0.88rem, 0.7rem + 0.9vw, 1rem);
-    letter-spacing: 0.07em;
+    gap: 0.7rem;
+    font-size: clamp(0.8rem, 0.62rem + 0.9vw, 0.95rem);
+    letter-spacing: 0.04em;
   }
   .nav-left {
     order: 1;
@@ -239,12 +241,13 @@ a {
 }
 @media (max-width: 380px) {
   .nav-side {
-    gap: 0.6rem;
-    letter-spacing: 0.04em;
+    gap: 0.35rem;
+    letter-spacing: 0.02em;
+    font-size: 0.76rem;
   }
   .brand-badge {
-    width: 82px;
-    height: 82px;
+    width: 100px;
+    height: 100px;
   }
 }
 
