@@ -167,6 +167,7 @@ export default async function Home() {
             <li>
               <span>🅿️ Estacionamento</span>
               Para clientes — Travessa Cápua, 96
+              <DirectionsLinks address="Travessa Cápua, 96 - Limão, São Paulo" />
             </li>
           </ul>
         </div>

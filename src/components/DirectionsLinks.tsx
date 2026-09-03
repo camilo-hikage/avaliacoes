@@ -2,16 +2,23 @@
 export const ADDRESS =
   "Av. Professor Celestino Bourroul, 1068 - Limão, São Paulo, 02710-001";
 
-const MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-  ADDRESS,
-)}`;
-const WAZE_URL = `https://www.waze.com/ul?q=${encodeURIComponent(ADDRESS)}&navigate=yes`;
-
 /**
- * Dois botões com ícone: abrir rota até o endereço no Google Maps ou no Waze.
- * `tone="quiet"` deixa o traço discreto (para o rodapé escuro).
+ * Dois botões com ícone: abrir rota até um endereço no Google Maps ou no Waze.
+ * `address` padrão é o do restaurante; `tone="quiet"` deixa o traço discreto
+ * (para o rodapé escuro).
  */
-export function DirectionsLinks({ tone = "gold" }: { tone?: "gold" | "quiet" }) {
+export function DirectionsLinks({
+  address = ADDRESS,
+  tone = "gold",
+}: {
+  address?: string;
+  tone?: "gold" | "quiet";
+}) {
+  const MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+    address,
+  )}`;
+  const WAZE_URL = `https://www.waze.com/ul?q=${encodeURIComponent(address)}&navigate=yes`;
+
   return (
     <div className={`directions${tone === "quiet" ? " directions-quiet" : ""}`}>
       <a href={MAPS_URL} target="_blank" rel="noreferrer" aria-label="Traçar rota no Google Maps">
