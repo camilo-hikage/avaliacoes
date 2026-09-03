@@ -37,6 +37,33 @@ export default async function Home() {
 
   return (
     <main>
+      {/* ---------------- NOSSA HISTÓRIA ---------------- */}
+      <section id="historia" className="story-band">
+        <div className="section-head">
+          <p className="eyebrow">Nossa história</p>
+          <h2 className="display">Onde tudo começou</h2>
+        </div>
+        <div className="story-inner">
+          <p>
+            O Tio nasceu de uma vontade simples: ter um canto de bairro onde todo
+            mundo é recebido como gente da família. Começou pequeno — poucas
+            mesas, o fogão sempre aceso e uma vitrola tocando ao fundo.
+          </p>
+          <p>
+            Com o tempo, a clientela virou vizinhança e a vizinhança virou amiga.
+            O cardápio cresceu ao redor das receitas de casa, a cerveja ficou
+            mais gelada e a música ganhou palco. O que não mudou foi o
+            essencial: comida caseira feita na hora, preço honesto e conversa boa
+            até tarde.
+          </p>
+          <p>
+            Hoje o Tio é ponto de encontro de quem trabalha ali perto, de família
+            no fim de semana e de quem só queria um lugar pra chamar de seu. Puxa
+            uma cadeira — a casa é sua.
+          </p>
+        </div>
+      </section>
+
       {/* ---------------- CARDÁPIO ---------------- */}
       {menu.configured && menu.categories.length > 0 ? (
         <section id="cardapio" className="menu-band">
