@@ -269,10 +269,30 @@ main > section[id] {
   scroll-margin-top: 90px;
 }
 
-/* ---------- seção: nossa história ---------- */
+/* ---------- seção: nossa história (foto de fundo com scrim escuro) ---------- */
 .story-band {
-  background: var(--paper);
+  position: relative;
+  isolation: isolate;
+  color: #f3eee2;
+  background-image:
+    linear-gradient(180deg, rgba(15, 13, 9, 0.86) 0%, rgba(15, 13, 9, 0.78) 45%, rgba(15, 13, 9, 0.9) 100%),
+    url("/history.jpg");
+  background-size: cover;
+  background-position: center 28%;
+  background-repeat: no-repeat;
   padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+}
+/* fio dourado no topo, como nas outras faixas escuras */
+.story-band::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: -1;
+}
+.story-band .section-head h2 {
+  color: #fbf7ec;
 }
 .story-inner {
   max-width: 680px;
@@ -281,7 +301,7 @@ main > section[id] {
 }
 .story-inner p {
   margin: 0 0 1.1rem;
-  color: #4b4235;
+  color: #e7ddc9;
   font-size: 1.02rem;
 }
 .story-inner p:last-child {

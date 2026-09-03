@@ -165,7 +165,7 @@ export default async function Home() {
             </li>
             <li>
               <span>Estacionamento</span>
-              No local
+              Para clientes — Travessa Cápua, 96
             </li>
           </ul>
           <a className="btn" href={mapsDirectionsUrl} target="_blank" rel="noreferrer">

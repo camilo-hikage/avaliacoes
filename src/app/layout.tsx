@@ -71,7 +71,9 @@ export default function RootLayout({
                   <br />
                   Limão, São Paulo · 02710-001
                   <br />
-                  Todos os dias, 11h30 à meia-noite · Estacionamento no local
+                  Todos os dias, 11h30 à meia-noite
+                  <br />
+                  Estacionamento p/ clientes — Travessa Cápua, 96
                 </p>
                 <a
                   className="footer-social"
