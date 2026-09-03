@@ -55,8 +55,8 @@ export default function RootLayout({
           <nav className="nav-side nav-right">
             <Link href="/#mapa">Como chegar</Link>
             <Link href="/#avaliar">Avaliar</Link>
+            <ShareButton />
           </nav>
-          <ShareButton />
           <HeaderEdge />
         </header>
 
