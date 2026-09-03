@@ -45,21 +45,29 @@ export default async function Home() {
         </div>
         <div className="story-inner">
           <p>
-            O Tio nasceu de uma vontade simples: ter um canto de bairro onde todo
-            mundo é recebido como gente da família. Começou pequeno — poucas
-            mesas, o fogão sempre aceso e uma vitrola tocando ao fundo.
+            No final de 2008, por conta de uma necessidade, tive a ideia de
+            empreender com cachorro-quente — o dinheiro era muito curto. Comecei
+            com R$ 1.500,00, o suficiente para comprar o carrinho de inox e os
+            insumos.
           </p>
           <p>
-            Com o tempo, a clientela virou vizinhança e a vizinhança virou amiga.
-            O cardápio cresceu ao redor das receitas de casa, a cerveja ficou
-            mais gelada e a música ganhou palco. O que não mudou foi o
-            essencial: comida caseira feita na hora, preço honesto e conversa boa
-            até tarde.
+            Depois de 3 meses comprei uma Towner e, a partir dali, minha história
+            começou a mudar.
           </p>
           <p>
-            Hoje o Tio é ponto de encontro de quem trabalha ali perto, de família
-            no fim de semana e de quem só queria um lugar pra chamar de seu. Puxa
-            uma cadeira — a casa é sua.
+            Cinco anos depois tive a oportunidade de conhecer o chef Edu Guedes,
+            um divisor de águas na minha vida. Com a ajuda dele consegui montar
+            uma Kombi e, com isso, foi possível crescer ainda mais o negócio.
+          </p>
+          <p>
+            Passados outros 5 anos, montei o food truck dos sonhos. Quando pensei
+            que tinha chegado ao máximo, 4 anos depois abri meu restaurante: o
+            Tio Bar e Restaurante.
+          </p>
+          <p>
+            Minha maior satisfação é ter reconhecimento no bairro — tanto como
+            Tio do Dog quanto como Tio Bar e Restaurante. Meu agradecimento ao
+            bairro do Limão e à Zona Norte por terem mudado a minha vida.
           </p>
         </div>
       </section>
