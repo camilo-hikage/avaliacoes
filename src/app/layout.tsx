@@ -40,6 +40,7 @@ export default function RootLayout({
       <body>
         <header className="site-header">
           <nav className="nav-side nav-left">
+            <Link href="/#historia">História</Link>
             <Link href="/#cardapio">Cardápio</Link>
           </nav>
           <Link href="/" className="brand" aria-label={SITE_NAME}>
@@ -49,6 +50,7 @@ export default function RootLayout({
             </span>
           </Link>
           <nav className="nav-side nav-right">
+            <Link href="/#mapa">Como chegar</Link>
             <Link href="/#avaliar">Avaliar</Link>
           </nav>
           <HeaderEdge />

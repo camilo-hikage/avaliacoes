@@ -154,22 +154,27 @@ export default async function Home() {
           <p className="eyebrow">Onde ficamos</p>
           <h2 className="display">Venha nos visitar</h2>
           <p className="venue-tagline">🍽️ Comida gostosa com preço justo.</p>
-          <ul className="venue-info">
-            <li>
-              <span>📍 Endereço</span>
-              Av. Professor Celestino Bourroul, 1068 — Limão, São Paulo · 02710-001
+          <p className="venue-hours">🕰️ Todos os dias, das 11h30 à meia-noite</p>
+          <div className="venue-grid">
+            <div className="venue-col">
+              <p className="venue-label">📍 Endereço</p>
+              <p className="venue-text">
+                Av. Professor Celestino Bourroul, 1068
+                <br />
+                Limão, São Paulo · 02710-001
+              </p>
               <DirectionsLinks />
-            </li>
-            <li>
-              <span>🕰️ Horário</span>
-              Todos os dias, das 11h30 à meia-noite
-            </li>
-            <li>
-              <span>🅿️ Estacionamento</span>
-              Para clientes — Travessa Cápua, 96
+            </div>
+            <div className="venue-col">
+              <p className="venue-label">🅿️ Estacionamento</p>
+              <p className="venue-text">
+                Para clientes
+                <br />
+                Travessa Cápua, 96 · Limão
+              </p>
               <DirectionsLinks address="Travessa Cápua, 96 - Limão, São Paulo" />
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
         <div className="map-frame">
           <iframe
