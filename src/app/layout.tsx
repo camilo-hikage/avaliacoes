@@ -58,7 +58,8 @@ export default function RootLayout({
 
         <footer className="site-footer">
           <div className="site-footer-inner">
-            <div className="footer-brand">
+            {/* coluna 1 — marca */}
+            <div className="footer-col footer-brand">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo.png" alt="" className="brand-logo" />
               <div>
@@ -67,21 +68,6 @@ export default function RootLayout({
                   <br />
                   🍽️ Comida gostosa com preço justo.
                 </p>
-                <p className="footer-contact">
-                  📍 Av. Professor Celestino Bourroul, 1068
-                  <br />
-                  Limão, São Paulo · 02710-001
-                  <br />
-                  🕰️ Todos os dias, 11h30 à meia-noite
-                </p>
-                <DirectionsLinks tone="quiet" />
-                <p className="footer-contact">
-                  🅿️ Estacionamento p/ clientes — Travessa Cápua, 96
-                </p>
-                <DirectionsLinks
-                  tone="quiet"
-                  address="Travessa Cápua, 96 - Limão, São Paulo"
-                />
                 <a
                   className="footer-social"
                   href={INSTAGRAM_URL}
@@ -99,9 +85,34 @@ export default function RootLayout({
                 </a>
               </div>
             </div>
-            <nav className="footer-nav">
+
+            {/* coluna 2 — contato / rotas */}
+            <div className="footer-col">
+              <h3 className="footer-col-title">Contato</h3>
+              <p className="footer-contact">
+                📍 Av. Professor Celestino Bourroul, 1068
+                <br />
+                Limão, São Paulo · 02710-001
+                <br />
+                🕰️ Todos os dias, 11h30 à meia-noite
+              </p>
+              <DirectionsLinks tone="quiet" />
+              <p className="footer-contact">
+                🅿️ Estacionamento p/ clientes — Travessa Cápua, 96
+              </p>
+              <DirectionsLinks
+                tone="quiet"
+                address="Travessa Cápua, 96 - Limão, São Paulo"
+              />
+            </div>
+
+            {/* coluna 3 — navegação */}
+            <nav className="footer-col footer-nav">
+              <h3 className="footer-col-title">Navegação</h3>
+              <Link href="/#historia">Nossa história</Link>
               <Link href="/#cardapio">Cardápio</Link>
               <Link href="/#avaliar">Avaliar no Google</Link>
+              <Link href="/#mapa">Como chegar</Link>
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
                 Instagram
               </a>
