@@ -35,6 +35,12 @@ body {
 }
 html {
   color-scheme: light;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 body {
   background: var(--paper);
@@ -104,11 +110,12 @@ a {
 .nav-side {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1.35rem;
+  gap: 0.35rem 1.5rem;
   font-family: var(--font-condensed);
   text-transform: uppercase;
-  letter-spacing: 0.13em;
-  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  /* fonte fluida: cresce com a tela, sempre legível */
+  font-size: clamp(0.9rem, 0.68rem + 0.85vw, 1.1rem);
   font-weight: 600;
 }
 .nav-left {
@@ -159,31 +166,69 @@ a {
   height: 100%;
   object-fit: cover;
 }
+/* botão de compartilhar — só no mobile, canto superior direito do header */
+.share-btn {
+  display: none;
+}
 @media (max-width: 720px) {
   .site-header {
-    gap: 0.5rem 0.7rem;
-    padding: 0.5rem 0.8rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem 0.55rem;
+  }
+  .site-header .brand {
+    order: -1;
+  }
+  .brand-badge {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 0; /* sem transbordo no mobile: header compacto */
   }
   .nav-side {
-    gap: 0.1rem 0.7rem;
-    font-size: 0.7rem;
+    justify-content: center;
+    gap: 0.2rem 1.35rem;
+    font-size: clamp(0.92rem, 0.7rem + 1.1vw, 1.05rem);
+    letter-spacing: 0.1em;
+  }
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0.55rem;
+    right: 0.7rem;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(224, 175, 28, 0.5);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--accent);
+    letter-spacing: 0;
+    z-index: 4;
+  }
+  .share-btn:hover {
+    filter: none;
+    background: rgba(224, 175, 28, 0.14);
+  }
+  .share-btn-copied {
+    font-family: var(--font-condensed);
+    text-transform: uppercase;
+    font-size: 0.54rem;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+  }
+}
+@media (max-width: 380px) {
+  .nav-side {
+    gap: 0.2rem 1rem;
     letter-spacing: 0.06em;
   }
   .brand-badge {
-    width: 88px;
-    height: 88px;
-    margin-bottom: -36px;
-  }
-}
-@media (max-width: 420px) {
-  .nav-side {
-    font-size: 0.63rem;
-    gap: 0.1rem 0.5rem;
-  }
-  .brand-badge {
-    width: 74px;
-    height: 74px;
-    margin-bottom: -28px;
+    width: 70px;
+    height: 70px;
   }
 }
 
@@ -339,9 +384,10 @@ main > .reviews-band:first-child {
   padding-top: clamp(4.5rem, 8vw, 6rem);
 }
 
-/* âncoras (#cardapio, #avaliar, #mapa…) não ficam escondidas sob o header fixo */
+/* âncoras (#cardapio, #avaliar, #mapa…) não ficam escondidas sob o header fixo
+   (altura do header + a onda decorativa que transborda dele) */
 main > section[id] {
-  scroll-margin-top: 90px;
+  scroll-margin-top: 104px;
 }
 
 /* ---------- seção: nossa história (foto de fundo com scrim escuro) ---------- */
@@ -830,13 +876,14 @@ main > section[id] {
 .map-band {
   background: var(--ink-2);
   border-top: 1px solid rgba(224, 175, 28, 0.25);
-  padding: clamp(3rem, 7vw, 5rem) 0 0;
+  padding: 0;
   text-align: center;
 }
 .map-inner {
   max-width: 880px;
   margin: 0 auto;
-  padding: 0 1.25rem 1.75rem;
+  /* mesmo respiro em cima e embaixo para o bloco não parecer desalinhado */
+  padding: clamp(3rem, 7vw, 5rem) 1.25rem clamp(3rem, 7vw, 5rem);
 }
 .map-band .eyebrow {
   color: var(--accent);
