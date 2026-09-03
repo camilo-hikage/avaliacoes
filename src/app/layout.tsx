@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Kaushan_Script, Barlow_Condensed, Barlow } from "next/font/google";
 import { HeaderEdge } from "@/components/HeaderEdge";
 import { DirectionsLinks } from "@/components/DirectionsLinks";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { ShareButton } from "@/components/ShareButton";
 import "./globals.css";
 
 const display = Kaushan_Script({
@@ -38,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${display.variable} ${condensed.variable} ${body.variable}`}>
       <body>
+        <SmoothScroll />
         <header className="site-header">
           <nav className="nav-side nav-left">
             <Link href="/#historia">História</Link>
@@ -53,6 +56,7 @@ export default function RootLayout({
             <Link href="/#mapa">Como chegar</Link>
             <Link href="/#avaliar">Avaliar</Link>
           </nav>
+          <ShareButton />
           <HeaderEdge />
         </header>
 
