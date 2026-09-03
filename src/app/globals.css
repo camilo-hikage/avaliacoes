@@ -856,6 +856,50 @@ main > section[id] {
   font-size: 0.7rem;
   color: var(--accent);
 }
+
+/* ---------- rota: botões Maps / Waze ---------- */
+.directions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+}
+.directions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  font-size: 0.74rem;
+  color: var(--accent);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.directions a:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.directions svg {
+  flex-shrink: 0;
+}
+.directions-quiet {
+  margin-top: 0.85rem;
+}
+.directions-quiet a {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #cfc6b4;
+}
+.directions-quiet a:hover {
+  background: transparent;
+  border-color: var(--accent);
+  color: var(--accent);
+}
 .map-frame {
   width: 100%;
   overflow: hidden;

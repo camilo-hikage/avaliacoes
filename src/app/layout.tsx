@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Kaushan_Script, Barlow_Condensed, Barlow } from "next/font/google";
 import { HeaderEdge } from "@/components/HeaderEdge";
+import { DirectionsLinks } from "@/components/DirectionsLinks";
 import "./globals.css";
 
 const display = Kaushan_Script({
@@ -64,17 +65,18 @@ export default function RootLayout({
                 <p>
                   <strong>{SITE_NAME}</strong>
                   <br />
-                  Comida gostosa com preço justo.
+                  🍽️ Comida gostosa com preço justo.
                 </p>
                 <p className="footer-contact">
-                  Av. Professor Celestino Bourroul, 1068
+                  📍 Av. Professor Celestino Bourroul, 1068
                   <br />
                   Limão, São Paulo · 02710-001
                   <br />
-                  Todos os dias, 11h30 à meia-noite
+                  🕰️ Todos os dias, 11h30 à meia-noite
                   <br />
-                  Estacionamento p/ clientes — Travessa Cápua, 96
+                  🅿️ Estacionamento p/ clientes — Travessa Cápua, 96
                 </p>
+                <DirectionsLinks tone="quiet" />
                 <a
                   className="footer-social"
                   href={INSTAGRAM_URL}

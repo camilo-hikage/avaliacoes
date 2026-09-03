@@ -7,6 +7,7 @@ import { MenuModal } from "@/components/MenuModal";
 import { InstagramCarousel } from "@/components/InstagramCarousel";
 import { StarRating } from "@/components/StarRating";
 import { TornDivider } from "@/components/TornDivider";
+import { DirectionsLinks } from "@/components/DirectionsLinks";
 
 export default async function Home() {
   const [{ configured, rating, total, mapsUri, reviews }, insta, menu] = await Promise.all([
@@ -19,13 +20,9 @@ export default async function Home() {
   const mapsQuery =
     process.env.NEXT_PUBLIC_MAPS_QUERY ||
     "Tio Bar e Restaurante, Av. Professor Celestino Bourroul, 1068 - Limão, São Paulo";
-  const mapsPlaceId = process.env.NEXT_PUBLIC_MAPS_PLACE_ID || "";
   const mapsEmbedUrl =
     process.env.NEXT_PUBLIC_MAPS_EMBED_URL ||
     `https://www.google.com/maps?q=${encodeURIComponent(mapsQuery)}&z=16&output=embed`;
-  const mapsDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-    mapsQuery,
-  )}${mapsPlaceId ? `&destination_place_id=${mapsPlaceId}` : ""}`;
 
   const items: WallItem[] = reviews.map((r) => ({
     key: `g-${r.id}`,
@@ -156,24 +153,22 @@ export default async function Home() {
         <div className="map-inner">
           <p className="eyebrow">Onde ficamos</p>
           <h2 className="display">Venha nos visitar</h2>
-          <p className="venue-tagline">Comida gostosa com preço justo.</p>
+          <p className="venue-tagline">🍽️ Comida gostosa com preço justo.</p>
           <ul className="venue-info">
             <li>
-              <span>Endereço</span>
+              <span>📍 Endereço</span>
               Av. Professor Celestino Bourroul, 1068 — Limão, São Paulo · 02710-001
+              <DirectionsLinks />
             </li>
             <li>
-              <span>Horário</span>
+              <span>🕰️ Horário</span>
               Todos os dias, das 11h30 à meia-noite
             </li>
             <li>
-              <span>Estacionamento</span>
+              <span>🅿️ Estacionamento</span>
               Para clientes — Travessa Cápua, 96
             </li>
           </ul>
-          <a className="btn" href={mapsDirectionsUrl} target="_blank" rel="noreferrer">
-            Como chegar
-          </a>
         </div>
         <div className="map-frame">
           <iframe
