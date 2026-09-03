@@ -255,6 +255,12 @@ a {
 .torn-wave svg {
   overflow: visible;
 }
+.torn-wave.torn-layered {
+  height: 64px;
+}
+.torn-wave.torn-layered svg {
+  overflow: hidden;
+}
 
 /* primeira seção da página precisa de espaço pro logo que transborda do header */
 main > .story-band:first-child,
@@ -280,7 +286,7 @@ main > section[id] {
   background-size: cover;
   background-position: center 28%;
   background-repeat: no-repeat;
-  padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+  padding: clamp(2.75rem, 6vw, 4.25rem) 0 clamp(4rem, 8vw, 5.5rem);
 }
 /* fio dourado no topo, como nas outras faixas escuras */
 .story-band::before {

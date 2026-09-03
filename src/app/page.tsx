@@ -73,7 +73,7 @@ export default async function Home() {
           </p>
         </div>
         {menu.configured && menu.categories.length > 0 ? (
-          <TornDivider position="bottom" variant="wave" fill="#e6ddc9" stroke="brown" />
+          <TornDivider position="bottom" variant="layered" />
         ) : null}
       </section>
 

@@ -5,6 +5,23 @@ import { WAVE_D, WAVE_VIEWBOX } from "@/lib/shapes";
  * variant "torn" = papel rasgado; "wave" = a onda compartilhada (WAVE_D).
  * `tone` = cor que "invade" a seção de baixo.
  */
+/** segunda onda, com fase diferente, para as camadas não ficarem paralelas */
+const WAVE_D2 =
+  "M0,15 C 120,22 260,24 420,16 C 560,9 690,6 840,13 C 980,19 1080,21 1200,15";
+
+/**
+ * Camadas empilhadas da divisória "layered": deslocamento vertical, espelhamento
+ * horizontal, curva usada, cor (degradê marrom → bege), traço, opacidades.
+ */
+const LAYERS = [
+  { dy: 4, flip: false, d: WAVE_D, color: "#2e1f11", w: 1.5, op: 0.4, fillOp: 0 },
+  { dy: 12, flip: true, d: WAVE_D2, color: "#553a22", w: 2, op: 0.5, fillOp: 0.12 },
+  { dy: 21, flip: false, d: WAVE_D, color: "#835c3a", w: 2.5, op: 0.65, fillOp: 0.2 },
+  { dy: 31, flip: true, d: WAVE_D2, color: "#ac835b", w: 2.5, op: 0.8, fillOp: 0.34 },
+  { dy: 41, flip: false, d: WAVE_D, color: "#cdae86", w: 3, op: 0.92, fillOp: 0.6 },
+  { dy: 50, flip: true, d: WAVE_D2, color: "#e6ddc9", w: 3, op: 1, fillOp: 1 },
+] as const;
+
 export function TornDivider({
   position,
   tone = "paper",
@@ -14,13 +31,39 @@ export function TornDivider({
 }: {
   position: "top" | "bottom";
   tone?: "paper" | "ink";
-  variant?: "torn" | "wave";
+  variant?: "torn" | "wave" | "layered";
   /** cor sólida da onda; sobrepõe `tone` quando informada */
   fill?: string;
   /** cor do traço da onda: dourado padrão ou degradê marrom */
   stroke?: "accent" | "brown";
 }) {
   const fill = fillProp ?? (tone === "ink" ? "var(--ink)" : "var(--paper)");
+
+  if (variant === "layered") {
+    return (
+      <div className={`torn torn-${position} torn-wave torn-layered`} aria-hidden="true">
+        <svg viewBox="0 0 1200 80" preserveAspectRatio="none" focusable="false">
+          {LAYERS.map((l, i) => (
+            <g key={i} transform={`translate(0,${l.dy})`}>
+              <g transform={l.flip ? "translate(1200,0) scale(-1,1)" : undefined}>
+                {l.fillOp > 0 ? (
+                  <path d={`${l.d} L1200,80 L0,80 Z`} fill={l.color} fillOpacity={l.fillOp} />
+                ) : null}
+                <path
+                  d={l.d}
+                  fill="none"
+                  stroke={l.color}
+                  strokeOpacity={l.op}
+                  strokeWidth={String(l.w)}
+                  vectorEffect="non-scaling-stroke"
+                />
+              </g>
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
 
   if (variant === "wave") {
     const gradId = "wave-stroke-brown";
