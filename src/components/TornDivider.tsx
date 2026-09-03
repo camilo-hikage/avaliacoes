@@ -7,11 +7,12 @@ import { WAVE_D, WAVE_VIEWBOX } from "@/lib/shapes";
  */
 /* Curvas acentuadas para a divisória "layered" (viewBox 0 0 1200 130).
    Cristas e vales bem marcados; duas fases diferentes para as linhas se cruzarem.
-   Vão de -140 a 1340 (folga nas pontas) para a animação de deriva não abrir vão. */
+   Vão de -300 a 1500 (folga larga nas pontas) para a deriva animada, mesmo
+   ampla, nunca abrir vão nas bordas. */
 const WAVE_L1 =
-  "M-140,42 C 40,-16 220,-18 460,34 C 600,66 740,82 900,44 C 1060,8 1180,-6 1340,40";
+  "M-300,40 C -80,-16 140,-18 460,34 C 640,66 800,82 900,44 C 1080,4 1280,-8 1500,40";
 const WAVE_L2 =
-  "M-140,32 C 60,90 260,98 450,40 C 580,-4 700,-14 840,32 C 980,74 1120,86 1340,30";
+  "M-300,32 C -60,92 180,100 450,40 C 600,-6 760,-16 840,32 C 1020,78 1240,90 1500,30";
 
 /** degradês de cor por camada (topo → base da pilha) */
 const RAMPS = {
@@ -63,7 +64,7 @@ export function TornDivider({
                 <g transform={l.flip ? "translate(1200,0) scale(-1,1)" : undefined}>
                   {l.fillOp > 0 ? (
                     <path
-                      d={`${l.d} L1340,130 L-140,130 Z`}
+                      d={`${l.d} L1500,130 L-300,130 Z`}
                       fill={colors[i]}
                       fillOpacity={l.fillOp}
                     />

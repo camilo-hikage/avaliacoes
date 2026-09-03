@@ -265,42 +265,50 @@ a {
   height: 78px;
 }
 
-/* deriva suave das camadas — cada uma com ritmo próprio */
+/* deriva das camadas — parallax bem perceptível, cada uma com ritmo próprio */
 @media (prefers-reduced-motion: no-preference) {
   .torn-layered .wave-anim {
-    animation: wave-drift-a 12s ease-in-out infinite alternate;
+    animation: wave-drift-a 7s ease-in-out infinite alternate;
     will-change: transform;
   }
   .torn-layered .wave-anim-2 {
-    animation: wave-drift-b 9s ease-in-out infinite alternate;
+    animation: wave-drift-b 5s ease-in-out infinite alternate;
   }
   .torn-layered .wave-anim-3 {
-    animation: wave-drift-a 15s ease-in-out infinite alternate;
+    animation: wave-drift-c 9s ease-in-out infinite alternate;
   }
   .torn-layered .wave-anim-4 {
-    animation: wave-drift-b 10.5s ease-in-out infinite alternate;
+    animation: wave-drift-b 6s ease-in-out infinite alternate-reverse;
   }
   .torn-layered .wave-anim-5 {
-    animation: wave-drift-a 18s ease-in-out infinite alternate;
+    animation: wave-drift-c 11s ease-in-out infinite alternate-reverse;
   }
   .torn-layered .wave-anim-6 {
-    animation: wave-drift-b 13s ease-in-out infinite alternate;
+    animation: wave-drift-a 8s ease-in-out infinite alternate;
   }
 }
 @keyframes wave-drift-a {
   from {
-    transform: translateX(-26px);
+    transform: translateX(-72px);
   }
   to {
-    transform: translateX(26px);
+    transform: translateX(72px);
   }
 }
 @keyframes wave-drift-b {
   from {
-    transform: translateX(24px) translateY(-3px);
+    transform: translateX(92px) translateY(-6px);
   }
   to {
-    transform: translateX(-30px) translateY(3px);
+    transform: translateX(-98px) translateY(6px);
+  }
+}
+@keyframes wave-drift-c {
+  from {
+    transform: translateX(-124px) translateY(5px);
+  }
+  to {
+    transform: translateX(132px) translateY(-5px);
   }
 }
 
