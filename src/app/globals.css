@@ -172,55 +172,60 @@ a {
 }
 @media (max-width: 720px) {
   .site-header {
-    /* navs colados nas bordas, logo sobe para o centro entre eles */
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: start;
-    gap: 0.4rem;
-    padding: 0.55rem 0.8rem 0;
-  }
-  .nav-side {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 0.3rem;
-    padding-top: 0.5rem;
-    font-size: clamp(0.92rem, 0.7rem + 1.1vw, 1.05rem);
-    letter-spacing: 0.09em;
-  }
-  .nav-left {
+    /* logo grande e centralizado no topo; os dois grupos de links lado a lado abaixo */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: flex-start;
-  }
-  .nav-right {
-    align-items: flex-end;
+    gap: 0.4rem 1.4rem;
+    padding: 0.55rem 0.8rem 0.7rem;
   }
   .site-header .brand {
-    justify-self: center;
+    order: 1;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: center;
   }
   .brand-badge {
-    width: 78px;
-    height: 78px;
-    margin-bottom: -26px;
+    width: 105px;
+    height: 105px;
+    margin-bottom: 0;
   }
+  .nav-side {
+    flex-wrap: nowrap;
+    gap: 0.9rem;
+    padding-top: 0.15rem;
+    font-size: clamp(0.9rem, 0.72rem + 0.9vw, 1.02rem);
+    letter-spacing: 0.08em;
+  }
+  .nav-left {
+    order: 2;
+  }
+  .nav-right {
+    order: 3;
+  }
+  /* botão de compartilhar sobre a borda ondulada, no canto direito */
   .share-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    align-self: flex-end;
-    margin-top: 0.45rem;
+    position: absolute;
+    right: 0.8rem;
+    bottom: -19px;
     width: 36px;
     height: 36px;
     padding: 0;
-    border: 1px solid rgba(224, 175, 28, 0.5);
+    border: 1px solid var(--accent);
     border-radius: 50%;
     background: var(--ink);
     color: var(--accent);
     letter-spacing: 0;
-    position: relative;
-    z-index: 4;
+    z-index: 5;
+    box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.7);
   }
   .share-btn:hover {
     filter: none;
-    background: rgba(224, 175, 28, 0.14);
+    background: rgba(224, 175, 28, 0.16);
   }
   .share-btn-copied {
     font-family: var(--font-condensed);
@@ -232,12 +237,12 @@ a {
 }
 @media (max-width: 380px) {
   .nav-side {
-    gap: 0.2rem 1rem;
-    letter-spacing: 0.06em;
+    gap: 0.7rem;
+    letter-spacing: 0.05em;
   }
   .brand-badge {
-    width: 70px;
-    height: 70px;
+    width: 96px;
+    height: 96px;
   }
 }
 
